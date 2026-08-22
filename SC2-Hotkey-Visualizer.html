@@ -300,7 +300,6 @@
             color: var(--tx);
         }
 
-        /* ─── Category colorize toggle ─── */
         .colorize-toggle {
             display: flex;
             align-items: center;
@@ -336,6 +335,52 @@
         .colorize-toggle.active .indicator {
             background: var(--ac);
             box-shadow: 0 0 8px rgba(0, 229, 255, .4);
+        }
+
+        /* ─── Key combo search bar ─── */
+        .combo-search-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+        .combo-search-wrapper .combo-label {
+            font-size: 8px;
+            color: var(--tx-d);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        #comboSearch {
+            padding: 4px 8px;
+            background: var(--sf2);
+            border: 1px solid var(--kb-b);
+            border-radius: 3px;
+            color: var(--tx);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 10px;
+            outline: none;
+            width: 140px;
+            transition: border-color .2s;
+        }
+        #comboSearch:focus {
+            border-color: var(--ac);
+        }
+        #comboSearch::placeholder {
+            color: var(--tx-d);
+            font-size: 9px;
+        }
+        .combo-clear {
+            font-size: 9px;
+            color: var(--tx-d);
+            cursor: pointer;
+            padding: 2px 6px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            transition: all .2s;
+        }
+        .combo-clear:hover {
+            border-color: var(--tx-d);
+            color: var(--tx);
         }
 
         .main-panel {
@@ -634,6 +679,15 @@
             border-color: var(--ac);
             color: var(--ac);
         }
+        /* combo search highlight */
+        .cmds .cmd.combo-match {
+            background: rgba(0, 229, 255, .08);
+            outline: 1px solid rgba(0, 229, 255, .2);
+        }
+        .cmds .cmd.combo-match kbd {
+            border-color: var(--ac);
+            color: var(--ac);
+        }
 
         .tip {
             position: fixed;
@@ -679,7 +733,6 @@
             font-size: 9px;
             white-space: nowrap;
         }
-        /* category color chip in tooltip */
         .tip-c .cat-chip {
             display: inline-block;
             width: 8px;
@@ -729,6 +782,12 @@
             .cmds .cmd-grid {
                 grid-template-columns: 1fr;
             }
+            .toolbar {
+                gap: 6px;
+            }
+            #comboSearch {
+                width: 100px;
+            }
         }
     </style>
 </head>
@@ -759,7 +818,12 @@
             </div>
             <div class="colorize-toggle active" id="colorizeToggle">
                 <span class="indicator"></span>
-                Colorize Commands
+                Colorize
+            </div>
+            <div class="combo-search-wrapper">
+                <span class="combo-label">Key:</span>
+                <input type="text" id="comboSearch" placeholder="e.g. Shift+1" />
+                <span class="combo-clear" id="comboClear">✕</span>
             </div>
         </div>
 
@@ -1775,7 +1839,7 @@
         }
 
         // ─── RENDER COMMANDS ──────────────────────────────────────────
-        function renderCmds() {
+        function renderCmds(comboFilter) {
             const cm = document.getElementById('cmds');
             cm.innerHTML = '';
             const groups = {};
@@ -1829,6 +1893,20 @@
                         el.className = 'cmd';
                         el.dataset.raw = item.raw;
                         el.dataset.search = `${item.name} ${item.ctx}`.toLowerCase();
+                        // combo filter match
+                        let comboMatch = false;
+                        if (comboFilter) {
+                            const normalizedFilter = comboFilter.toLowerCase().replace(/\s/g, '');
+                            for (const kb of item.kbs) {
+                                const comboStr = [...kb.mods, kb.keyId].join('+').toLowerCase().replace(/\s/g, '');
+                                if (comboStr === normalizedFilter || comboStr.includes(normalizedFilter)) {
+                                    comboMatch = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (comboMatch) el.classList.add('combo-match');
+
                         if (item.hkCat && activeCategories.has(item.hkCat)) {
                             el.classList.add('cat-highlight');
                             const color = CAT_COLORS[item.hkCat] || '#ffffff';
@@ -1883,6 +1961,21 @@
                     el.style.display = el.dataset.search.includes(q) ? '' : 'none';
                 });
             }
+            // Also filter by combo search if active
+            const comboVal = document.getElementById('comboSearch').value.trim();
+            if (comboVal) {
+                const normalizedFilter = comboVal.toLowerCase().replace(/\s/g, '');
+                document.querySelectorAll('.cmd').forEach(el => {
+                    // If it has .combo-match, keep it, otherwise hide
+                    if (!el.classList.contains('combo-match')) {
+                        el.style.display = 'none';
+                    } else {
+                        el.style.display = '';
+                    }
+                });
+                // Expand all sections to show matches
+                document.querySelectorAll('.race-sec.shut, .sub-sec.shut').forEach(el => el.classList.remove('shut'));
+            }
             updateStats();
             updateKeyGlows();
         }
@@ -1900,8 +1993,6 @@
             clearHL();
             const race = RACES.find(r => r.id === item.race);
             const color = race ? race.c : '#78909c';
-            // If colorize is on and the item has a category, use category color for the main key
-            // But we still need to highlight all keys in the combo.
             for (const kb of item.kbs) {
                 let keyColor = color;
                 if (colorizeCommands && item.hkCat && CAT_COLORS[item.hkCat]) {
@@ -2053,7 +2144,7 @@
                         pinned = null;
                         clearHL();
                     }
-                    renderCmds();
+                    renderCmds(document.getElementById('comboSearch').value.trim());
                 });
                 bar.appendChild(toggle);
             }
@@ -2066,7 +2157,7 @@
                     pinned = null;
                     clearHL();
                 }
-                renderCmds();
+                renderCmds(document.getElementById('comboSearch').value.trim());
             });
         }
 
@@ -2082,7 +2173,7 @@
             meleeOnly = !meleeOnly;
             const el = document.getElementById('meleeToggle');
             el.classList.toggle('active', meleeOnly);
-            renderCmds();
+            renderCmds(document.getElementById('comboSearch').value.trim());
             const q = document.getElementById('search').value.toLowerCase();
             if (q) {
                 document.querySelectorAll('.cmd').forEach(el2 => {
@@ -2097,13 +2188,17 @@
             colorizeCommands = !colorizeCommands;
             const el = document.getElementById('colorizeToggle');
             el.classList.toggle('active', colorizeCommands);
-            // If a command is pinned, re-highlight it with the new setting
             if (pinned) {
                 clearHL();
                 hlCmd(pinned);
             }
-            // Also update key glows for category highlights (if any)
             updateKeyGlows();
+        }
+
+        // ─── COMBO SEARCH ──────────────────────────────────────────────
+        function handleComboSearch() {
+            const val = document.getElementById('comboSearch').value.trim();
+            renderCmds(val);
         }
 
         // ─── INIT ──────────────────────────────────────────────────────
@@ -2111,7 +2206,7 @@
             const binds = parse();
             build(binds);
             renderKB();
-            renderCmds();
+            renderCmds('');
             renderFilters();
             renderCategoryToggles();
 
@@ -2120,11 +2215,28 @@
                 document.querySelectorAll('.cmd').forEach(el => {
                     el.style.display = el.dataset.search.includes(q) ? '' : 'none';
                 });
+                // Re-apply combo filter if active
+                const comboVal = document.getElementById('comboSearch').value.trim();
+                if (comboVal) {
+                    const normalizedFilter = comboVal.toLowerCase().replace(/\s/g, '');
+                    document.querySelectorAll('.cmd').forEach(el => {
+                        if (!el.classList.contains('combo-match')) {
+                            el.style.display = 'none';
+                        } else {
+                            el.style.display = '';
+                        }
+                    });
+                }
             });
 
             document.getElementById('toggleAll').addEventListener('click', toggleAll);
             document.getElementById('meleeToggle').addEventListener('click', toggleMelee);
             document.getElementById('colorizeToggle').addEventListener('click', toggleColorize);
+            document.getElementById('comboSearch').addEventListener('input', handleComboSearch);
+            document.getElementById('comboClear').addEventListener('click', () => {
+                document.getElementById('comboSearch').value = '';
+                renderCmds('');
+            });
 
             document.getElementById('meleeToggle').classList.add('active');
             document.getElementById('colorizeToggle').classList.add('active');
