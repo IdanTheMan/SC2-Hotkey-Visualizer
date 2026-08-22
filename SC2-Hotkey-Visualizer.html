@@ -1,23 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SC2 Hotkey Visualizer – Category Highlights</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SC2 Hotkey Visualizer — Category Highlights</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
     <style>
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-            --bg: #06060e; --sf: #0c0c1a; --sf2: #141428;
-            --kb: #181832; --kb-b: #28284a; --kb-h: #222244;
-            --tx: #b8b8d4; --tx-d: #5a5a7a; --tx-b: #e8e8f8;
-            --ac: #00e5ff; --u: 44px; --g: 3px; --r: 4px;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
-        html, body { height: 100%; margin: 0; }
+        :root {
+            --bg: #06060e;
+            --sf: #0c0c1a;
+            --sf2: #141428;
+            --kb: #181832;
+            --kb-b: #28284a;
+            --kb-h: #222244;
+            --tx: #b8b8d4;
+            --tx-d: #5a5a7a;
+            --tx-b: #e8e8f8;
+            --ac: #00e5ff;
+            --u: 44px;
+            --g: 3px;
+            --r: 4px;
+        }
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
         body {
             background: var(--bg);
-            background-image: linear-gradient(rgba(0,229,255,.012) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0,229,255,.012) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(0, 229, 255, .012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, .012) 1px, transparent 1px);
             background-size: 28px 28px;
             color: var(--tx);
             font-family: 'Share Tech Mono', monospace;
@@ -25,1440 +44,2095 @@
             display: flex;
             flex-direction: column;
         }
-        #app { display: flex; flex-direction: column; height: 100%; min-height: 0; }
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
         .header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding-bottom: 10px; border-bottom: 1px solid rgba(0,229,255,.08);
-            flex-wrap: wrap; gap: 8px; flex-shrink: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(0, 229, 255, .08);
+            flex-wrap: wrap;
+            gap: 8px;
+            flex-shrink: 0;
         }
         .header h1 {
-            font-family: 'Orbitron', sans-serif; font-size: 18px; font-weight: 900;
-            color: var(--tx-b); letter-spacing: 3px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            font-weight: 900;
+            color: var(--tx-b);
+            letter-spacing: 3px;
         }
-        .header h1 .a { color: var(--ac); text-shadow: 0 0 20px rgba(0,229,255,.4); }
-        .sub { font-size: 9px; color: var(--tx-d); letter-spacing: 2px; text-transform: uppercase; margin-top: 2px; }
-        .stats { display: flex; gap: 14px; }
-        .stat { text-align: center; }
-        .stat-v { display: block; font-family: 'Orbitron', sans-serif; font-size: 15px; font-weight: 700; color: var(--ac); }
-        .stat-l { font-size: 8px; color: var(--tx-d); text-transform: uppercase; letter-spacing: 1px; }
+        .header h1 .a {
+            color: var(--ac);
+            text-shadow: 0 0 20px rgba(0, 229, 255, .4);
+        }
+        .sub {
+            font-size: 9px;
+            color: var(--tx-d);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 2px;
+        }
+        .stats {
+            display: flex;
+            gap: 14px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-v {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--ac);
+        }
+        .stat-l {
+            font-size: 8px;
+            color: var(--tx-d);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
         .toolbar {
-            display: flex; flex-wrap: wrap; gap: 8px 12px;
-            padding: 8px 0 10px 0; border-bottom: 1px solid rgba(255,255,255,.04);
-            margin-bottom: 8px; flex-shrink: 0; align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 12px;
+            padding: 8px 0 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
+            margin-bottom: 8px;
+            flex-shrink: 0;
+            align-items: center;
         }
         .search {
-            padding: 5px 10px; background: var(--sf2); border: 1px solid var(--kb-b);
-            border-radius: 3px; color: var(--tx); font-family: 'Share Tech Mono', monospace;
-            font-size: 11px; outline: none; width: 180px; transition: border-color .2s;
+            padding: 5px 10px;
+            background: var(--sf2);
+            border: 1px solid var(--kb-b);
+            border-radius: 3px;
+            color: var(--tx);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 11px;
+            outline: none;
+            width: 180px;
+            transition: border-color .2s;
         }
-        .search:focus { border-color: var(--ac); }
-        .search::placeholder { color: var(--tx-d); }
+        .search:focus {
+            border-color: var(--ac);
+        }
+        .search::placeholder {
+            color: var(--tx-d);
+        }
         .btn {
-            padding: 4px 10px; background: var(--sf2); border: 1px solid var(--kb-b);
-            border-radius: 3px; color: var(--tx-d); font-family: 'Share Tech Mono', monospace;
-            font-size: 9px; cursor: pointer; transition: all .2s; text-transform: uppercase;
-            letter-spacing: 1px; flex-shrink: 0;
+            padding: 4px 10px;
+            background: var(--sf2);
+            border: 1px solid var(--kb-b);
+            border-radius: 3px;
+            color: var(--tx-d);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all .2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            flex-shrink: 0;
         }
-        .btn:hover { border-color: var(--ac); color: var(--ac); }
-        .btn.active { border-color: var(--ac); color: var(--ac); background: rgba(0,229,255,.06); }
-        .filter-bar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
-        .filter-label { font-size: 8px; color: var(--tx-d); text-transform: uppercase; letter-spacing: 1px; margin-right: 2px; }
-        .filters { display: flex; gap: 3px; flex-wrap: wrap; }
+        .btn:hover {
+            border-color: var(--ac);
+            color: var(--ac);
+        }
+        .btn.active {
+            border-color: var(--ac);
+            color: var(--ac);
+            background: rgba(0, 229, 255, .06);
+        }
+        .filter-bar {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-label {
+            font-size: 8px;
+            color: var(--tx-d);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 2px;
+        }
+        .filters {
+            display: flex;
+            gap: 3px;
+            flex-wrap: wrap;
+        }
         .filter {
-            padding: 3px 7px; background: var(--sf2); border: 1px solid var(--kb-b);
-            border-radius: 10px; font-size: 9px; cursor: pointer; transition: all .2s;
-            display: flex; align-items: center; gap: 4px; color: var(--tx-d);
-            text-transform: uppercase; letter-spacing: .5px;
+            padding: 3px 7px;
+            background: var(--sf2);
+            border: 1px solid var(--kb-b);
+            border-radius: 10px;
+            font-size: 9px;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--tx-d);
+            text-transform: uppercase;
+            letter-spacing: .5px;
         }
-        .filter .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
-        .filter:hover { border-color: var(--tx-d); }
-        .filter.on { border-color: var(--tx); color: var(--tx); background: rgba(255,255,255,.03); }
-        .filter.off { opacity: .3; }
+        .filter .dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .filter:hover {
+            border-color: var(--tx-d);
+        }
+        .filter.on {
+            border-color: var(--tx);
+            color: var(--tx);
+            background: rgba(255, 255, 255, .03);
+        }
+        .filter.off {
+            opacity: .3;
+        }
         .melee-toggle {
-            display: flex; align-items: center; gap: 5px; font-size: 9px;
-            text-transform: uppercase; letter-spacing: .5px; color: var(--tx-d);
-            cursor: pointer; padding: 3px 8px; border: 1px solid var(--kb-b);
-            border-radius: 10px; background: var(--sf2); transition: all .2s;
-            user-select: none; flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--tx-d);
+            cursor: pointer;
+            padding: 3px 8px;
+            border: 1px solid var(--kb-b);
+            border-radius: 10px;
+            background: var(--sf2);
+            transition: all .2s;
+            user-select: none;
+            flex-shrink: 0;
         }
-        .melee-toggle:hover { border-color: var(--tx-d); }
-        .melee-toggle.active { border-color: var(--ac); color: var(--ac); background: rgba(0,229,255,.06); }
+        .melee-toggle:hover {
+            border-color: var(--tx-d);
+        }
+        .melee-toggle.active {
+            border-color: var(--ac);
+            color: var(--ac);
+            background: rgba(0, 229, 255, .06);
+        }
         .melee-toggle .indicator {
-            width: 8px; height: 8px; border-radius: 50%; background: var(--tx-d);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--tx-d);
             transition: all .2s;
         }
-        .melee-toggle.active .indicator { background: var(--ac); box-shadow: 0 0 8px rgba(0,229,255,.4); }
+        .melee-toggle.active .indicator {
+            background: var(--ac);
+            box-shadow: 0 0 8px rgba(0, 229, 255, .4);
+        }
 
         .category-bar {
-            display: flex; flex-wrap: wrap; gap: 4px 8px; align-items: center;
-            padding: 4px 0 6px 0; border-bottom: 1px solid rgba(255,255,255,.03);
-            margin-bottom: 6px; flex-shrink: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 8px;
+            align-items: center;
+            padding: 4px 0 6px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .03);
+            margin-bottom: 6px;
+            flex-shrink: 0;
         }
-        .category-bar .cat-label { font-size: 8px; color: var(--tx-d); text-transform: uppercase; letter-spacing: 1px; margin-right: 2px; }
+        .category-bar .cat-label {
+            font-size: 8px;
+            color: var(--tx-d);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-right: 2px;
+        }
         .cat-toggle {
-            padding: 2px 8px; border-radius: 10px; font-size: 8px; text-transform: uppercase;
-            letter-spacing: .5px; border: 1px solid var(--kb-b); background: var(--sf2);
-            color: var(--tx-d); cursor: pointer; transition: all .2s; user-select: none;
-            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            border: 1px solid var(--kb-b);
+            background: var(--sf2);
+            color: var(--tx-d);
+            cursor: pointer;
+            transition: all .2s;
+            user-select: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
-        .cat-toggle .cat-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
-        .cat-toggle:hover { border-color: var(--tx-d); }
-        .cat-toggle.active { border-color: var(--ac); color: var(--tx-b); background: rgba(255,255,255,.04); }
-        .cat-toggle.active .cat-dot { box-shadow: 0 0 6px currentColor; }
-        .cat-clear { font-size: 8px; color: var(--tx-d); cursor: pointer; padding: 2px 6px; border: 1px solid transparent; border-radius: 10px; transition: all .2s; }
-        .cat-clear:hover { border-color: var(--tx-d); color: var(--tx); }
+        .cat-toggle .cat-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .cat-toggle:hover {
+            border-color: var(--tx-d);
+        }
+        .cat-toggle.active {
+            border-color: var(--ac);
+            color: var(--tx-b);
+            background: rgba(255, 255, 255, .04);
+        }
+        .cat-toggle.active .cat-dot {
+            box-shadow: 0 0 6px currentColor;
+        }
+        .cat-clear {
+            font-size: 8px;
+            color: var(--tx-d);
+            cursor: pointer;
+            padding: 2px 6px;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            transition: all .2s;
+        }
+        .cat-clear:hover {
+            border-color: var(--tx-d);
+            color: var(--tx);
+        }
 
-        .main-panel { display: flex; flex: 1; min-height: 0; gap: 12px; padding-bottom: 6px; }
-        .kb-sec {
-            flex: 0 0 55%; min-width: 380px; overflow-x: auto; overflow-y: auto;
-            padding-right: 6px; border-right: 1px solid rgba(255,255,255,.05);
+        /* ─── Category colorize toggle ─── */
+        .colorize-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            color: var(--tx-d);
+            cursor: pointer;
+            padding: 3px 8px;
+            border: 1px solid var(--kb-b);
+            border-radius: 10px;
+            background: var(--sf2);
+            transition: all .2s;
+            user-select: none;
+            flex-shrink: 0;
         }
-        .kb-sec .kb { display: flex; flex-direction: column; gap: var(--g); min-width: fit-content; }
-        .kb-sec .krow { display: flex; gap: var(--g); }
-        .kb-sec .kgap { width: calc(var(--u)*.45); flex-shrink: 0; }
+        .colorize-toggle:hover {
+            border-color: var(--tx-d);
+        }
+        .colorize-toggle.active {
+            border-color: var(--ac);
+            color: var(--ac);
+            background: rgba(0, 229, 255, .06);
+        }
+        .colorize-toggle .indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--tx-d);
+            transition: all .2s;
+        }
+        .colorize-toggle.active .indicator {
+            background: var(--ac);
+            box-shadow: 0 0 8px rgba(0, 229, 255, .4);
+        }
+
+        .main-panel {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            gap: 12px;
+            padding-bottom: 6px;
+        }
+        .kb-sec {
+            flex: 0 0 55%;
+            min-width: 380px;
+            overflow-x: auto;
+            overflow-y: auto;
+            padding-right: 6px;
+            border-right: 1px solid rgba(255, 255, 255, .05);
+        }
+        .kb-sec .kb {
+            display: flex;
+            flex-direction: column;
+            gap: var(--g);
+            min-width: fit-content;
+        }
+        .kb-sec .krow {
+            display: flex;
+            gap: var(--g);
+        }
+        .kb-sec .kgap {
+            width: calc(var(--u)*.45);
+            flex-shrink: 0;
+        }
         .kb-sec .key {
-            height: var(--u); background: var(--kb); border: 1px solid var(--kb-b);
-            border-radius: var(--r); display: flex; flex-direction: column;
-            align-items: center; justify-content: center; cursor: pointer;
-            transition: all .15s ease; position: relative; flex-shrink: 0;
-            user-select: none; overflow: hidden;
+            height: var(--u);
+            background: var(--kb);
+            border: 1px solid var(--kb-b);
+            border-radius: var(--r);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all .15s ease;
+            position: relative;
+            flex-shrink: 0;
+            user-select: none;
+            overflow: hidden;
         }
         .kb-sec .key::after {
-            content: ''; position: absolute; inset: 0; border-radius: var(--r);
-            pointer-events: none; transition: all .2s;
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: var(--r);
+            pointer-events: none;
+            transition: all .2s;
         }
-        .kb-sec .key:hover { background: var(--kb-h); border-color: rgba(0,229,255,.25); }
-        .kb-sec .key.has::after { background: rgba(0,229,255,.035); }
+        .kb-sec .key:hover {
+            background: var(--kb-h);
+            border-color: rgba(0, 229, 255, .25);
+        }
+        .kb-sec .key.has::after {
+            background: rgba(0, 229, 255, .035);
+        }
         .kb-sec .key.glow {
             border-color: var(--gc, var(--ac));
-            box-shadow: 0 0 14px var(--gc4, rgba(0,229,255,.3)), inset 0 0 8px var(--gc2, rgba(0,229,255,.12));
-            transform: translateY(-2px); z-index: 10;
+            box-shadow: 0 0 14px var(--gc4, rgba(0, 229, 255, .3)), inset 0 0 8px var(--gc2, rgba(0, 229, 255, .12));
+            transform: translateY(-2px);
+            z-index: 10;
         }
-        .kb-sec .key.glow::after { background: var(--gc2, rgba(0,229,255,.12)); }
-        .kb-sec .key.glow .kl { color: #fff; text-shadow: 0 0 6px var(--gc, var(--ac)); }
-        .kb-sec .kl { font-size: 10px; font-weight: 700; color: var(--tx); z-index: 1; pointer-events: none; line-height: 1; }
-        .kb-sec .key.has .kl { color: var(--tx-b); }
-        .kb-sec .kc { font-size: 7px; color: var(--tx-d); z-index: 1; pointer-events: none; margin-top: 1px; min-height: 9px; }
-        .kb-sec .key.has .kc { color: var(--ac); }
-        .kb-sec .mrow { display: flex; gap: var(--g); margin-top: 6px; }
-        .kb-sec .mrow .key { height: calc(var(--u)*.68); }
+        .kb-sec .key.glow::after {
+            background: var(--gc2, rgba(0, 229, 255, .12));
+        }
+        .kb-sec .key.glow .kl {
+            color: #fff;
+            text-shadow: 0 0 6px var(--gc, var(--ac));
+        }
+        .kb-sec .kl {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--tx);
+            z-index: 1;
+            pointer-events: none;
+            line-height: 1;
+        }
+        .kb-sec .key.has .kl {
+            color: var(--tx-b);
+        }
+        .kb-sec .kc {
+            font-size: 7px;
+            color: var(--tx-d);
+            z-index: 1;
+            pointer-events: none;
+            margin-top: 1px;
+            min-height: 9px;
+        }
+        .kb-sec .key.has .kc {
+            color: var(--ac);
+        }
+        .kb-sec .mrow {
+            display: flex;
+            gap: var(--g);
+            margin-top: 6px;
+        }
+        .kb-sec .mrow .key {
+            height: calc(var(--u)*.68);
+        }
 
         .cmds {
-            flex: 1; overflow-y: auto; overflow-x: hidden;
-            padding-right: 4px; min-width: 0;
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            padding-right: 4px;
+            min-width: 0;
         }
         .cmds .race-sec {
-            background: var(--sf); border: 1px solid rgba(255,255,255,.04);
-            border-radius: 6px; overflow: hidden; margin-bottom: 8px;
+            background: var(--sf);
+            border: 1px solid rgba(255, 255, 255, .04);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 8px;
         }
         .cmds .race-hdr {
-            display: flex; align-items: center; gap: 8px; padding: 10px 14px;
-            cursor: pointer; transition: background .15s; border-bottom: 1px solid rgba(255,255,255,.04);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 14px;
+            cursor: pointer;
+            transition: background .15s;
+            border-bottom: 1px solid rgba(255, 255, 255, .04);
             user-select: none;
         }
-        .cmds .race-hdr:hover { background: rgba(255,255,255,.02); }
-        .cmds .race-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-        .cmds .race-nm {
-            font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700;
-            color: var(--tx-b); letter-spacing: 3px; text-transform: uppercase; flex: 1;
+        .cmds .race-hdr:hover {
+            background: rgba(255, 255, 255, .02);
         }
-        .cmds .race-cnt { font-size: 10px; color: var(--tx-d); margin-right: 4px; }
-        .cmds .race-arr { font-size: 8px; color: var(--tx-d); transition: transform .3s; width: 14px; text-align: center; flex-shrink: 0; }
-        .cmds .race-sec.shut .race-arr { transform: rotate(-90deg); }
-        .cmds .race-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .3s; }
-        .cmds .race-sec.shut .race-body { grid-template-rows: 0fr; }
-        .cmds .race-inner { overflow: hidden; }
+        .cmds .race-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+        .cmds .race-nm {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--tx-b);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            flex: 1;
+        }
+        .cmds .race-cnt {
+            font-size: 10px;
+            color: var(--tx-d);
+            margin-right: 4px;
+        }
+        .cmds .race-arr {
+            font-size: 8px;
+            color: var(--tx-d);
+            transition: transform .3s;
+            width: 14px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .cmds .race-sec.shut .race-arr {
+            transform: rotate(-90deg);
+        }
+        .cmds .race-body {
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: grid-template-rows .3s;
+        }
+        .cmds .race-sec.shut .race-body {
+            grid-template-rows: 0fr;
+        }
+        .cmds .race-inner {
+            overflow: hidden;
+        }
         .cmds .sub-sec {
-            margin: 4px 6px; border: 1px solid rgba(255,255,255,.03);
-            border-radius: 4px; overflow: hidden;
+            margin: 4px 6px;
+            border: 1px solid rgba(255, 255, 255, .03);
+            border-radius: 4px;
+            overflow: hidden;
         }
         .cmds .sub-hdr {
-            display: flex; align-items: center; gap: 6px; padding: 6px 10px;
-            cursor: pointer; transition: background .15s; user-select: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            cursor: pointer;
+            transition: background .15s;
+            user-select: none;
         }
-        .cmds .sub-hdr:hover { background: rgba(255,255,255,.02); }
-        .cmds .sub-nm { font-size: 10px; font-weight: 700; color: var(--tx); letter-spacing: 1px; text-transform: uppercase; flex: 1; }
-        .cmds .sub-cnt { font-size: 9px; color: var(--tx-d); }
-        .cmds .sub-arr { font-size: 7px; color: var(--tx-d); transition: transform .3s; }
-        .cmds .sub-sec.shut .sub-arr { transform: rotate(-90deg); }
-        .cmds .sub-body { display: grid; grid-template-rows: 1fr; transition: grid-template-rows .3s; }
-        .cmds .sub-sec.shut .sub-body { grid-template-rows: 0fr; }
-        .cmds .sub-inner { overflow: hidden; }
+        .cmds .sub-hdr:hover {
+            background: rgba(255, 255, 255, .02);
+        }
+        .cmds .sub-nm {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--tx);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            flex: 1;
+        }
+        .cmds .sub-cnt {
+            font-size: 9px;
+            color: var(--tx-d);
+        }
+        .cmds .sub-arr {
+            font-size: 7px;
+            color: var(--tx-d);
+            transition: transform .3s;
+        }
+        .cmds .sub-sec.shut .sub-arr {
+            transform: rotate(-90deg);
+        }
+        .cmds .sub-body {
+            display: grid;
+            grid-template-rows: 1fr;
+            transition: grid-template-rows .3s;
+        }
+        .cmds .sub-sec.shut .sub-body {
+            grid-template-rows: 0fr;
+        }
+        .cmds .sub-inner {
+            overflow: hidden;
+        }
         .cmds .cmd-grid {
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1px; padding: 3px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1px;
+            padding: 3px;
         }
         .cmds .cmd {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 3px 7px; border-radius: 3px; cursor: pointer;
-            transition: background .12s, border-color .2s; gap: 6px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 3px 7px;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background .12s, border-color .2s;
+            gap: 6px;
             border-left: 2px solid transparent;
         }
-        .cmds .cmd:hover { background: rgba(255,255,255,.04); }
-        .cmds .cmd.pin { background: rgba(255,255,255,.06); outline: 1px solid rgba(255,255,255,.08); }
+        .cmds .cmd:hover {
+            background: rgba(255, 255, 255, .04);
+        }
+        .cmds .cmd.pin {
+            background: rgba(255, 255, 255, .06);
+            outline: 1px solid rgba(255, 255, 255, .08);
+        }
         .cmds .cmd.cat-highlight {
             border-left-color: var(--cat-color, var(--ac));
-            background: rgba(255,255,255,.03);
+            background: rgba(255, 255, 255, .03);
         }
-        .cmds .cmd-info { flex: 1; min-width: 0; overflow: hidden; }
-        .cmds .cmd-nm { font-size: 11px; color: var(--tx-b); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cmds .cmd-ctx { font-size: 9px; color: var(--tx-d); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .cmds .cmd-keys { display: flex; gap: 2px; flex-shrink: 0; flex-wrap: wrap; }
+        .cmds .cmd-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+        }
+        .cmds .cmd-nm {
+            font-size: 11px;
+            color: var(--tx-b);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cmds .cmd-ctx {
+            font-size: 9px;
+            color: var(--tx-d);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .cmds .cmd-keys {
+            display: flex;
+            gap: 2px;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+        }
         .cmds kbd {
-            display: inline-block; padding: 1px 5px; background: var(--kb);
-            border: 1px solid var(--kb-b); border-radius: 3px;
-            font-family: 'Share Tech Mono', monospace; font-size: 9px; color: var(--tx-b);
-            min-width: 16px; text-align: center; line-height: 1.4;
+            display: inline-block;
+            padding: 1px 5px;
+            background: var(--kb);
+            border: 1px solid var(--kb-b);
+            border-radius: 3px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 9px;
+            color: var(--tx-b);
+            min-width: 16px;
+            text-align: center;
+            line-height: 1.4;
         }
-        .cmds .cmd:hover kbd { border-color: var(--ac); color: var(--ac); }
-        .cmds .cmd.pin kbd { border-color: var(--ac); color: var(--ac); }
+        .cmds .cmd:hover kbd {
+            border-color: var(--ac);
+            color: var(--ac);
+        }
+        .cmds .cmd.pin kbd {
+            border-color: var(--ac);
+            color: var(--ac);
+        }
 
         .tip {
-            position: fixed; background: var(--sf); border: 1px solid var(--ac);
-            border-radius: 6px; padding: 8px 10px; font-size: 10px; color: var(--tx);
-            pointer-events: none; z-index: 1000; max-width: 300px;
-            box-shadow: 0 4px 20px rgba(0,0,0,.6); display: none;
+            position: fixed;
+            background: var(--sf);
+            border: 1px solid var(--ac);
+            border-radius: 6px;
+            padding: 8px 10px;
+            font-size: 10px;
+            color: var(--tx);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 340px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .6);
+            display: none;
         }
-        .tip-k { font-family: 'Orbitron', sans-serif; font-size: 14px; font-weight: 700; color: var(--ac); margin-bottom: 4px; border-bottom: 1px solid rgba(0,229,255,.1); }
-        .tip-r { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; margin-bottom: 2px; border-bottom: 1px solid rgba(255,255,255,.05); }
-        .tip-c { padding: 1px 0; color: var(--tx); font-size: 10px; display: flex; justify-content: space-between; gap: 8px; }
-        .tip-c .tc { color: var(--tx-d); font-size: 9px; white-space: nowrap; }
+        .tip-k {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--ac);
+            margin-bottom: 4px;
+            border-bottom: 1px solid rgba(0, 229, 255, .1);
+        }
+        .tip-r {
+            font-size: 9px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            margin-bottom: 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+        }
+        .tip-c {
+            padding: 1px 0;
+            color: var(--tx);
+            font-size: 10px;
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+        }
+        .tip-c .tc {
+            color: var(--tx-d);
+            font-size: 9px;
+            white-space: nowrap;
+        }
+        /* category color chip in tooltip */
+        .tip-c .cat-chip {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 2px;
+            flex-shrink: 0;
+            margin-right: 4px;
+            vertical-align: middle;
+        }
 
-        ::-webkit-scrollbar { width: 5px; height: 5px; }
-        ::-webkit-scrollbar-track { background: var(--sf); }
-        ::-webkit-scrollbar-thumb { background: var(--kb-b); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--tx-d); }
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--sf);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--kb-b);
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--tx-d);
+        }
 
         @media(max-width: 900px) {
-            :root { --u: 34px; }
-            .main-panel { flex-direction: column; gap: 10px; }
-            .kb-sec { flex: 0 0 auto; min-width: 0; width: 100%; border-right: none; max-height: 45vh; overflow-y: auto; }
-            .cmds { flex: 1; max-height: 55vh; overflow-y: auto; }
-            .cmds .cmd-grid { grid-template-columns: 1fr; }
+            :root {
+                --u: 34px;
+            }
+            .main-panel {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .kb-sec {
+                flex: 0 0 auto;
+                min-width: 0;
+                width: 100%;
+                border-right: none;
+                max-height: 45vh;
+                overflow-y: auto;
+            }
+            .cmds {
+                flex: 1;
+                max-height: 55vh;
+                overflow-y: auto;
+            }
+            .cmds .cmd-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
-<div id="app">
-    <header class="header">
-        <div>
-            <h1>SC2 <span class="a">HOTKEY</span> MAP</h1>
-            <p class="sub">Hover to highlight · Category filters available</p>
-        </div>
-        <div class="stats">
-            <div class="stat"><span class="stat-v" id="sT">-</span><span class="stat-l">Bindings</span></div>
-            <div class="stat"><span class="stat-v" id="sK">-</span><span class="stat-l">Keys</span></div>
-            <div class="stat"><span class="stat-v" id="sA">-</span><span class="stat-l">Actions</span></div>
-        </div>
-    </header>
+    <div id="app">
+        <header class="header">
+            <div>
+                <h1>SC2 <span class="a">HOTKEY</span> MAP</h1>
+                <p class="sub">Hover to highlight · Category filters available</p>
+            </div>
+            <div class="stats">
+                <div class="stat"><span class="stat-v" id="sT">-</span><span class="stat-l">Bindings</span></div>
+                <div class="stat"><span class="stat-v" id="sK">-</span><span class="stat-l">Keys</span></div>
+                <div class="stat"><span class="stat-v" id="sA">-</span><span class="stat-l">Actions</span></div>
+            </div>
+        </header>
 
-    <div class="toolbar">
-        <input type="text" id="search" class="search" placeholder="Search commands..." />
-        <button class="btn" id="toggleAll">Collapse All</button>
-        <div class="filter-bar">
-            <span class="filter-label">Race</span>
-            <div class="filters" id="raceFilters"></div>
+        <div class="toolbar">
+            <input type="text" id="search" class="search" placeholder="Search commands..." />
+            <button class="btn" id="toggleAll">Collapse All</button>
+            <div class="filter-bar">
+                <span class="filter-label">Race</span>
+                <div class="filters" id="raceFilters"></div>
+            </div>
+            <div class="melee-toggle active" id="meleeToggle">
+                <span class="indicator"></span>
+                Melee Only
+            </div>
+            <div class="colorize-toggle active" id="colorizeToggle">
+                <span class="indicator"></span>
+                Colorize Commands
+            </div>
         </div>
-        <div class="melee-toggle active" id="meleeToggle">
-            <span class="indicator"></span>
-            Melee Only
+
+        <div class="category-bar" id="categoryBar">
+            <span class="cat-label">Highlight:</span>
+            <span class="cat-clear" id="clearCategories">✕ clear</span>
         </div>
+
+        <div class="main-panel">
+            <div class="kb-sec">
+                <div class="kb" id="kb"></div>
+                <div class="mrow" id="mrow"></div>
+            </div>
+            <div class="cmds" id="cmds"></div>
+        </div>
+
+        <div class="tip" id="tip"></div>
     </div>
 
-    <div class="category-bar" id="categoryBar">
-        <span class="cat-label">Highlight:</span>
-        <span class="cat-clear" id="clearCategories">✕ clear</span>
-    </div>
+    <script>
+        // ─── CONFIG (full) ─────────────────────────────────────────────
+        const CFG = `[Settings]
+        AllowSetConflicts=1
 
-    <div class="main-panel">
-        <div class="kb-sec">
-            <div class="kb" id="kb"></div>
-            <div class="mrow" id="mrow"></div>
-        </div>
-        <div class="cmds" id="cmds"></div>
-    </div>
+        [Hotkeys]
+        FPS=Alt+F2
+        Music=Shift+F8
+        Sound=Shift+F7
+        PTT=Alt+F1
+        AICommunication=Shift+Alt+5
+        AIArmy=Shift+Alt+R
+        AIScout=Shift+Alt+T
+        AIDetect=Shift+Alt+F
+        AIExpand=Shift+Alt+C
+        AIBuild=Shift+Alt+4
+        AIClearAll=Shift+Alt+G
+        AIDelete=Shift+Alt+V
+        AlertRecall=Shift+Grave
+        ArmySelect=Control+Tab,Control+Shift+Tab
+        CameraCenter=Alt+Tab,Alt+CapsLock,Alt+Grave,Alt+Shift
+        CameraFollow=Insert
+        CameraTurnLeft=Alt+T
+        CameraTurnRight=Alt+G
+        CameraPush=MiddleMouseButton
+        CommanderAbility0=Shift+F3
+        CommanderAbility1=Shift+F4
+        CommanderAbility2=Shift+F5
+        CommanderAbility3=Shift+F6
+        ControlGroupAppend0=Control+Alt+X
+        ControlGroupAppend1=Control+Alt+1
+        ControlGroupAppend2=Control+Alt+2
+        ControlGroupAppend3=Control+Alt+3
+        ControlGroupAppend4=Control+Alt+Q
+        ControlGroupAppend5=Control+Alt+W
+        ControlGroupAppend6=Control+Alt+CapsLock
+        ControlGroupAppend7=Control+Alt+A
+        ControlGroupAppend8=Control+Alt+S
+        ControlGroupAppend9=Control+Alt+Z
+        ControlGroupAppendAndSteal0=Control+X
+        ControlGroupAppendAndSteal1=Control+1
+        ControlGroupAppendAndSteal2=Control+2
+        ControlGroupAppendAndSteal3=Control+3
+        ControlGroupAppendAndSteal4=Control+Q
+        ControlGroupAppendAndSteal5=Control+W,Alt+D,Alt+Q
+        ControlGroupAppendAndSteal6=Control+CapsLock
+        ControlGroupAppendAndSteal7=Control+A
+        ControlGroupAppendAndSteal8=Control+S
+        ControlGroupAppendAndSteal9=Control+Z
+        ControlGroupAssign0=Shift+Alt+X
+        ControlGroupAssign1=Shift+Alt+1
+        ControlGroupAssign2=Shift+Alt+2
+        ControlGroupAssign3=Shift+Alt+3
+        ControlGroupAssign4=Shift+Alt+Q
+        ControlGroupAssign5=Shift+Alt+W
+        ControlGroupAssign6=Shift+Alt+CapsLock
+        ControlGroupAssign7=Shift+Alt+A
+        ControlGroupAssign8=Shift+Alt+S
+        ControlGroupAssign9=Shift+Alt+Z
+        ControlGroupAssignAndSteal0=Control+Shift+X
+        ControlGroupAssignAndSteal1=Control+Shift+1
+        ControlGroupAssignAndSteal2=Control+Shift+2
+        ControlGroupAssignAndSteal3=Control+Shift+3
+        ControlGroupAssignAndSteal4=Control+Shift+Q
+        ControlGroupAssignAndSteal5=Control+Shift+W
+        ControlGroupAssignAndSteal6=Control+Shift+CapsLock,Grave
+        ControlGroupAssignAndSteal7=Control+Shift+A
+        ControlGroupAssignAndSteal8=Control+Shift+S
+        ControlGroupAssignAndSteal9=Control+Shift+Z
+        ControlGroupRecall0=X
+        ControlGroupRecall1=1,Shift+V
+        ControlGroupRecall2=2
+        ControlGroupRecall3=3
+        ControlGroupRecall4=Q
+        ControlGroupRecall5=W
+        ControlGroupRecall6=CapsLock
+        ControlGroupRecall7=A
+        ControlGroupRecall8=S
+        ControlGroupRecall9=Z
+        GameTooltipsOn=NumPadMultiply
+        MinimapColors=F2
+        MinimapPing=Apostrophe
+        MinimapTerrain=Shift+F1
+        QuickPing=Alt+RightMouseButton
+        QuickSave=NumPad0
+        SelectionCancelDrag=RightMouseButton
+        Selection=LeftMouseButton
+        SmartCommand=RightMouseButton,Shift+Alt+RightMouseButton
+        StatusAll=BackSlash
+        StatusOwner=BracketClose
+        StatusEnemy=Alt,Control,Control+Alt,Shift+Alt
+        SubgroupNext=Tab,ForwardMouseButton
+        SubgroupPrev=Shift+Tab,BackMouseButton
+        TargetCancel=RightMouseButton,V
+        TargetChoose=LeftMouseButton,Space,R,T,Y,D,F,G,H
+        TeamResources=Shift+F2
+        TownCamera=B,Shift+Alt+E
+        WarpIn=Period
+        CameraSave0=Alt+W
+        CameraSave1=Alt+1,Control+V
+        CameraSave2=Alt+2,Control+F
+        CameraSave3=Alt+3,Control+R
+        CameraSave4=Alt+A
+        CameraSave5=Alt+S
+        CameraSave6=Alt+Z
+        CameraSave7=Alt+X
+        CameraView0=Shift+W
+        CameraView1=Shift+1,Control+C
+        CameraView2=Shift+2,Control+D
+        CameraView3=Shift+3,Control+E
+        CameraView4=Shift+A
+        CameraView5=Shift+S
+        CameraView6=Shift+Z
+        CameraView7=Shift+X
 
-    <div class="tip" id="tip"></div>
-</div>
+        [Commands]
+        250mmStrikeCannons/Thor=C
+        330mmBarrageCannons/Thor=C
+        ACAlarakPhasingMode/WarpPrismTaldarim=Space
+        ACAlarakTransportMode/WarpPrismTaldarim=R
+        AWrp=F
+        AbathurDeepTunnel=F
+        AbathurDeepTunnel/ImpalerAbathur=F
+        AbathurDeepTunnel/SwarmHost=F
+        Aberration/Larva=Y
+        Aberration/VoidRift=5
+        AberrationProtectiveCover/InfestedAbomination=C
+        ActivateShieldGenerator/ShadowShieldGenerator=Space
+        ActivateStasisWard/OracleStasisTrap=T
+        AdeptHallucination/Sentry=H
+        AdeptPhaseShift/Adept=Space,E,C
+        AdeptResearchPiercingUpgrade/TwilightCouncil=F
+        AdvancedConstructionAuto/SCV=4
+        AlarakDeadlyCharge=Space
+        AlarakDeadlyCharge/AlarakCoop=Space
+        AlarakKnockback/AlarakChampion=E
+        AlarakMindBlast/PitAlarak=C
+        AlarakMothershipMassTeleport/SOAMothershipv4=R
+        AlarakPsiOrb/PitAlarak=E
+        AnionPulseCrystals/FleetBeacon=D
+        ApocaliskBurrowCharge/StukovApocalisk=Space
+        Apocalypse/K5Kerrigan=F
+        ApolloCloakOnNova/NovaHero=F
+        Arbiter/Stargate=G
+        Arbiter/StargateWarp=G
+        ArbiterMPRecall/ArbiterMP=R
+        ArbiterMPStasisField/ArbiterMP=E,Space
+        Archon/SuperWarpGate=N
+        ArchonAdvancedMergeSelection=F
+        ArchonHallucination/Nexus=F
+        ArchonHallucination/Sentry=F
+        Armory/SCV=F
+        ArmoryMengsk/SCVMengsk=F
+        ArtanisAstralWind/ArtanisVoid=E
+        ArtanisChannel/ArtanisVoid=Space
+        ArtanisChannelOff/ArtanisVoid=F
+        ArtanisLightningDash/ArtanisVoid=R
+        ArtilleryMengsk/SCVMengsk=G
+        ArtilleryMengsk/TrooperMengsk=G
+        ArtilleryMengskBombardment/ArtilleryMengsk=Space
+        AscendantSacrifice/HighTemplarTaldarim=R
+        AssaultMode=R
+        Assimilator/Harvester=F
+        Assimilator/Probe=F
+        Attack=D
+        AutoTurret/Raven=Space,4
+        AutomatedExtractor/Drone=F
+        AutomatedRefinery/SCV=F
+        Baneling/Zergling=F
+        BanelingNest/Drone=T
+        BanelingStetmann/ZerglingStetmann=F
+        Banshee/Starport=V
+        BansheeSpeed/StarportTechLab=V
+        Barracks/SCV=C
+        BarracksMengsk/SCVMengsk=C
+        BatteryOvercharge/Nexus=C
+        Battlecruiser/Starport=G
+        BattlecruiserMengsk/StarportMengsk=G
+        BattlecruiserMengskHyperjump/BattlecruiserMengsk=R
+        BileLauncherBombardment/BileLauncherZagara=E,Space
+        BioPlasmidDischarge/Leviathan=E,Space
+        BioStasis/Leviathan=C
+        BlindingCloud/Viper=C,R
+        Blink/Stalker=Space
+        Blink/ZeratulStalker=Space
+        BlinkShieldRestoreUpgrade/StalkerShakuras=C
+        BroodLord/Corruptor=F
+        BroodLord/MutaliskBroodlord=F
+        BroodLordStetmann/CorruptorStetmann=F
+        Brutalisk/Larva=4
+        BrutaliskDeepTunnel/Brutalisk=C,F
+        BuildCreepTumor/Queen=C
+        BuildCreepTumor/QueenCoop=C
+        BuildCreepTumorPropagate/CreepTumorBurrowed=C,Space
+        BuildCyclone/Factory=V
+        BuildHealingDrone/Raven=R
+        BuildHercules/Starport=H
+        BuildScarab/Reaver=Space
+        BuildScienceVessel/Starport=C
+        BuildTechLabFactory/FactoryFlying=C
+        BuildTechLabStarport/StarportFlying=C
+        Bunker/SCV=R
+        BunkerLoad=C
+        BunkerUnloadAll=E
+        BurrowChargeCampaign/Ultralisk=Space
+        BurrowDown=R
+        BurrowHydraliskImpalerDown=R
+        BurrowHydraliskImpalerUp=Space,4
+        BurrowHydraliskLurkerDown=R
+        BurrowHydraliskLurkerUp=Space,4
+        BurrowLurkerMP=R
+        BurrowUp=4
+        CalldownMULE/CommandCenter=E
+        CalldownMULE/OrbitalCommand=E
+        Cancel=Escape
+        CancelCocoon=Escape
+        CancelMutateMorph=Escape
+        CancelUpgradeMorph=Escape
+        Carrier/Stargate=G
+        Carrier/StargateWarp=G
+        Carrier/SuperWarpGate=E
+        CausticSpray/Corruptor=E,Space
+        ChannelSnipe/Ghost=C,R
+        Charge/Zealot=Space
+        Charge/ZealotAiur=Space
+        Charge/ZealotDark=Space
+        Charge/ZealotPurifier=Space
+        ChronoBoostEnergyCost/Nexus=E
+        CloakOff=F
+        CloakOnBanshee=Space
+        CloakOnGhost/Ghost=Space
+        Colossus/RoboticsFacility=C
+        Colossus/RoboticsFacilityWarp=C
+        Colossus/SuperWarpGate=G
+        CommandCenter/SCV=E
+        CommandCenterMengsk/SCVMengsk=E
+        CommandCenterUnloadAll=F
+        ConsumeDNA/Hybrid=C
+        Contaminate/Overseer=C
+        CorruptionAbility/Corruptor=C
+        Corruptor/Larva=T
+        CorsairMPDisruptionWeb/CorsairMP=E,Space
+        CyberneticsCore/Harvester=R
+        CyberneticsCore/Probe=R
+        D8Charge/Reaper=Space
+        DarkArchon/Gateway=F
+        DarkArchon/WarpGate=F
+        DarkArchonConfusion/DarkArchon=C
+        DarkArchonMindControl/DarkArchon=E
+        DarkShrine/Harvester=T
+        DarkShrine/Probe=T
+        DarkTemplar=T
+        DarkTemplarBlink/DarkTemplar=Space
+        DehakaConsume/DehakaCoop=R
+        DehakaDeepTunnel/DehakaCoop=C
+        DehakaDetector/DehakaCoop=Y
+        DehakaDrone/DehakaHatchery=Space
+        DehakaHeal/Dehaka=Space
+        DehakaHydralisk/DehakaBarracks=C
+        DehakaIntimidatingRoar/DehakaCoop=Space
+        DehakaLeapStomp/DehakaCoop=E
+        DehakaLearnAbilities/DehakaCoop=4
+        DehakaMendingAura/DehakaCoop=6
+        DehakaMirrorImage/Dehaka=C
+        DehakaRoach/DehakaBarracks=R
+        DehakaSwarmHost/DehakaBarracks=F
+        DehakaUltralisk/DehakaBarracks=G
+        DehakaZergling/DehakaBarracks=D
+        DeploySpiderMines/SiegeTank=C,F
+        Diamondback/Factory=H
+        DisableBuildingAttack/Baneling=Space
+        Drone/Larva=Space
+        EnableBuildingAttack/Baneling=F
+        EnergizerReclamation/SentryPurifier=E
+        EnergyRecharge/Nexus=C
+        EngineeringBay/SCV=4
+        EngineeringBayMengsk/SCVMengsk=4
+        EvolutionChamber/Drone=4
+        EvolveAdrenalineBoost/EvolutionChamber=T
+        EvolveAnabolicSynthesis2/UltraliskCavern=E
+        EvolveBanelingCorrosiveBile/BanelingNest=D
+        EvolveBanelingHeal/BanelingNest=R
+        EvolveBanelingRupture/BanelingNest=F
+        EvolveBurrowCharge/Hatchery=4
+        EvolveBurrowCharge/UltraliskCavern=4
+        EvolveCentrificalHooks/BanelingNest=E
+        EvolveChitinousPlating/UltraliskCavern=Space
+        EvolveCorrosiveBileDamageIncrease/RoachWarren=R
+        EvolveCorrosiveBileRadiusIncrease/RoachWarren=F
+        EvolveDiggingClaws/LurkerDenMP=E
+        EvolveFlyingLocusts/InfestationPit=L
+        EvolveFrenzy/HydraliskDen=D
+        EvolveGlialRegeneration/RoachWarren=E
+        EvolveGroovedSpines/HydraliskDen=D
+        EvolveHardenedCarapace/SpawningPool=Space
+        EvolveHatcheryDoubleQueue/EvolutionChamber=G
+        EvolveHydriodicBile/RoachWarren=C
+        EvolveInfestorEnergyUpgrade/InfestationPit=E
+        EvolveK5ChainLightning/EvolutionChamber=C
+        EvolveK5Cooldowns/EvolutionChamber=V
+        EvolveKerriganHeroicFortitude/EvolutionChamber=R
+        EvolveMuscularAugments/HydraliskDen=E
+        EvolveMutaliskRapidRegeneration/Spire=R
+        EvolveOrganicCarapace/RoachWarren=O
+        EvolvePeristalsis/InfestationPit=P
+        EvolveScourgeGasCostReduction/ScourgeNest=F
+        EvolveScourgeSplashDamage/ScourgeNest=R
+        EvolveSeveringGlave/Spire=E
+        EvolveSunderingGlave/Spire=V
+        EvolveTissueAssimilation/UltraliskCavern=R
+        EvolveTunnelingClaws/RoachWarren=4
+        EvolveViciousGlaive/Spire=T
+        EvolveZerglingArmorShred/SpawningPool=R
+        Explode/Baneling=E
+        Extractor/Drone=F
+        Factory/SCV=D
+        FactoryMengsk/SCVMengsk=D
+        Feedback/HighTemplar=C,Space
+        Feedback/Archon=C,Space
+        FenixArbiterStasisField/FenixArbiter=C
+        FenixClolarionInterceptor/FenixClolarionCarrier=Space
+        FenixDragoonChargedBuster/FenixDragoon=Space
+        FenixImmortalResearchDetonationShot/RoboticsBay=E
+        FenixKaldalisZealotCharge/FenixKaldalisZealot=Space,E
+        FenixKaldalisZealotDownloadUpgrade=D
+        FenixMojoMissiles/FenixMojoScout=E,Space
+        FenixMojoScoutDownloadUpgrade=E
+        FenixPurificationNova/Disruptor=E,Space
+        FenixSOACharge/FenixSOA=Space
+        FenixSentryGuardianZone/SentryFenix=Space
+        FenixTaldarinImmortalDownloadUpgrade=R
+        FenixTalisAdeptBounceShot/FenixTalisAdept=Space
+        FenixTalisAdeptDownloadUpgrade=F
+        FenixThunderousChargeCoop/FenixCoop=Space
+        FenixWarbringerColossusPowerShot/FenixWarbringerColossus=E,Space
+        FenixWhirlwind/FenixSOA=E
+        FighterMode=Space
+        Firebat/Barracks=V
+        FleetBeacon/Harvester=G
+        FleetBeacon/Probe=G
+        ForceField/Sentry=E,R
+        Forge/Harvester=4
+        Forge/Probe=4
+        FungalGrowth/Infestor=E
+        FusionCore/SCV=G
+        FusionCoreMengsk/SCVMengsk=G
+        Gateway/Harvester=C
+        Gateway/Probe=C
+        GatherProt=Y
+        GenerateCreep/Overlord=4
+        Ghost/Barracks=Space
+        GhostAcademy/SCV=Space
+        GhostAcademyMengsk/SCVMengsk=Space
+        GhostHoldFire/Ghost=Y
+        Goliath/Factory=T
+        GravitonBeam/Phoenix=E,Space
+        GravitonBeam/PhoenixPurifier=E,Space
+        GravitonCatapult/Carrier=C
+        GreaterRoachWarren/RoachWarren=E
+        GreaterSpire/Spire=F
+        GuardianShield/Sentry=Space
+        Hatchery/Drone=E
+        HatcheryStetmann/Drone=E
+        Heal/Medivac=F
+        HealMengsk/MedivacMengsk=F
+        Hellion/Factory=D
+        HellionTank/Factory=R
+        HercGrapple/HERC=Space
+        HerculesLoad/Hercules=C
+        HerculesUnloadAll/Hercules=E
+        HighTemplar=Space
+        HighTemplarTaldarim=Space
+        Hive/Lair=F
+        HiveStetmann/LairStetmann=F
+        HoverSiegeMode=E
+        HunterSeekerMissile/Raven=C,F
+        Hydralisk/Larva=C
+        HydraliskDen/Drone=C
+        HydraliskDenStetmann/Drone=C
+        HydraliskFrenzy/Hydralisk=Space
+        HydraliskFrenzy/HydraliskEvolved=Space
+        Hyperjump/Battlecruiser=R
+        IgniteAfterburner/Medivac=Space,5
+        IgniteAfterburners/Banshee=C
+        IgniteAfterburners/Battlecruiser=C
+        IgniteAfterburners/Liberator=C
+        IgniteAfterburners/SiegeTank=C
+        IgniteAfterburners/VikingAssault=C
+        IgniteAfterburners/Vulture=C
+        Immortal=D
+        Immortal/Gateway=D
+        Immortal/RoboticsFacility=D
+        Immortal/RoboticsFacilityWarp=D
+        Immortal/WarpGate=D
+        ImmortalBarrierBase/Immortal=Space
+        ImmortalOverload/Immortal=Space
+        ImmortalityProtocol/Thor=F
+        Impaler/HydraliskImpaler=F
+        ImpalerDen/HydraliskDen=F
+        InfestationPit/Drone=F
+        InfestationPitStetmann/Drone=F
+        InfestedTerrans/Infestor=F
+        Infestor/Larva=F
+        InjectLarva/Queen=
+        Interceptor/Carrier=Space
+        Irradiate/ScienceVessel=E
+        JackhammerConcussionGrenade/Marauder=C
+        K5DropPods/K5Kerrigan=F
+        K5Leviathan/K5Kerrigan=F
+        KD8Charge/Reaper=Space,E,C
+        KerriganVoidCoopCrushingGripWave/K5Kerrigan=F
+        KerriganVoidCoopEconDrop/K5Kerrigan=Space
+        KhaydarinMonolith/Probe=G
+        Lair/Hatchery=F
+        LairStetmann/HatcheryStetmann=F
+        Land=4
+        Larva=Space,D,R,T,G,C
+        Liberator/Starport=R
+        LiberatorAAMode/Liberator=R
+        LiberatorAGMode/Liberator=Space,E
+        LightningBomb/Tempest=E,Space
+        LockOn/Cyclone=E,C,Space
+        LocustLaunch/SwarmHost=E
+        LocustLaunch/SwarmHostBurrowed=E
+        Lower/SupplyDepot=R
+        Lurker/Hydralisk=F
+        Lurker/HydraliskImpaler=F
+        Lurker/HydraliskLurker=F
+        LurkerBurrowDown=R
+        LurkerBurrowUp=Space,4
+        LurkerCancelHoldFire/LurkerMP=C
+        LurkerHoldFire/LurkerMPBurrowed=E
+        LurkerMP/Hydralisk=F
+        MagrailMunitions/Marauder=E
+        MagrailMunitions/Marine=E
+        Marauder/Barracks=R
+        Marine/Barracks=D
+        Medic/Barracks=T
+        MedicHeal/Medic=F
+        Medivac/Starport=F
+        MedivacMengsk/StarportMengsk=F
+        MercCompound/SCV=C
+        MercReaper/Barracks=G
+        MindBlast/Spectre=E
+        MindBlast/Tosh=E
+        MindBolt/K5Kerrigan=C
+        MissileTurret/SCV=Space
+        MissileTurretMengsk/SCVMengsk=Space
+        Mothership/Nexus=F
+        MothershipCore/Nexus=F
+        MothershipCoreMassRecall/MothershipCore=R
+        MothershipCoreWeapon/MothershipCore=C,Space
+        MothershipMassRecall/Mothership=R
+        Move=H
+        MoveHoldPosition=G
+        MovePatrol=T
+        Mutalisk/Larva=V
+        MutateintoLurkerDen/HydraliskDen=F
+        NPSwarm/Infestor=Space
+        NanoRepair/ScienceVessel=F
+        NeuralParasite/Infestor=Space
+        Nexus/Harvester=E
+        Nexus/Probe=E
+        NexusMassRecall/Nexus=R
+        NexusShieldRecharge/Nexus=C
+        NovaDomination/NovaHero=R
+        NovaSnipe/Nova=R,C
+        NovaSwitchAssaultMode=R
+        NovaUnitNuke=5
+        NukeCalldown/Ghost=4
+        NydusNetwork/Drone=D
+        Observer/RoboticsFacility=Space
+        Observer/RoboticsFacilityWarp=Space
+        OdinBarrage/Odin=C
+        Oracle/Stargate=F
+        Oracle/StargateWarp=F
+        Oracle/SuperWarpGate=G
+        OracleRevelation/Oracle=C
+        OracleWeaponOff=F
+        OracleWeaponOn=Space
+        OrbitalCommand/CommandCenter=E
+        OrbitalCommand/CommandCenterMengsk=E
+        OrbitalCommandCalldownSupplyDepot/OrbitalCommand=D
+        Overlord/Larva=E
+        ParasiticBomb/Viper=4
+        PhasingMode/WarpPrism=Space
+        Phoenix/Stargate=D
+        Phoenix/StargateWarp=D
+        Phoenix/SuperWarpGate=F
+        PhotonCannon/Harvester=Space
+        PhotonCannon/Probe=Space
+        Predator/Factory=F
+        Probe/Nexus=Space
+        ProtossBuild/Harvester=Space,C
+        ProtossBuild/Probe=Space,C
+        ProtossBuildAdvanced/Harvester=E
+        ProtossBuildAdvanced/Probe=E
+        ProtossGroundArmorLevel1/Forge=Space
+        ProtossGroundWeaponsLevel1/Forge=D
+        ProtossShieldsLevel1/Forge=E
+        PsiStorm/HighTemplar=E,R
+        PsiStorm/Archon=E,R
+        PsiStrike/K5Kerrigan=E
+        PsionicLift/K5Kerrigan=E
+        PurificationNova/Disruptor=Space
+        PurificationNovaTargeted/Disruptor=E,C,Space
+        Pylon/Harvester=D
+        Pylon/Probe=D
+        Queen=E
+        QueenCoop=E
+        QueenBurstHeal/Queen=4
+        QueenClassic=6
+        QueenMPSpawnBroodlings/QueenMP=Space
+        Raise/SupplyDepotLowered=Space,4
+        Rally=0
+        RallyEgg=9
+        RallySCV=0
+        RapidIncubation/SwarmHost=C
+        Ravager/Roach=F
+        RavagerCorrosiveBile/Ravager=E,Space
+        Raven/Starport=Space
+        RavenRepairDrone/Raven=Space,4
+        RavenScramblerMissile/Raven=E
+        RavenShredderMissile/Raven=C,R
+        Reactor/Barracks=E
+        Reactor/Factory=E
+        Reactor/Starport=E
+        Reaper/Barracks=F
+        ReaperSpeed/BarracksTechLab=F
+        ReaverScarabs/Reaver=Space
+        Refinery/SCV=F
+        RefineryMengsk/SCVMengsk=F
+        ReleaseInterceptors/Carrier=R
+        Repair=R
+        Research330mmBarrageCannon/FactoryTechLab=G
+        ResearchBarrier/RoboticsBay=D
+        ResearchBansheeCloak/StarportTechLab=4
+        ResearchBattlecruiserEnergyUpgrade/FusionCore=Space
+        ResearchCharge/TwilightCouncil=D
+        ResearchDarkArchonMindControl/DarkShrine=E
+        ResearchDarkTemplarBlink/DarkShrine=T
+        ResearchDrillClaws/FactoryTechLab=F
+        ResearchExtendedThermalLance/RoboticsBay=C
+        ResearchGraviticBooster/RoboticsBay=Space
+        ResearchGraviticDrive/RoboticsBay=F
+        ResearchHallucination/CyberneticsCore=R
+        ResearchHighTemplarEnergyUpgrade/TemplarArchive=E
+        ResearchInterceptorLaunchSpeedUpgrade/FleetBeacon=G
+        ResearchLockOnRangeUpgrade/FactoryTechLab=V
+        ResearchPsiStorm/TemplarArchive=Space
+        ResearchRavenEnergyUpgrade/StarportTechLab=Space
+        ResearchReaverIncreasedScarabCount/RoboticsBay=G
+        ResearchSeekerMissile/StarportTechLab=R
+        ResearchSiegeTech/FactoryTechLab=Space
+        ResearchStalkerTeleport/TwilightCouncil=R
+        ResearchSunderingImpact/TwilightCouncil=Space
+        ResearchWarpGate/CyberneticsCore=E
+        ResearchWhirlwind/TwilightCouncil=C
+        ReturnCargo=F
+        Roach/Larva=R
+        RoachWarren/Drone=R
+        RoboticsBay/Harvester=C
+        RoboticsBay/Probe=C
+        RoboticsFacility/Harvester=D
+        RoboticsFacility/Probe=D
+        SCV=Space
+        SCVMengsk=Space
+        Scan/CommandCenter=C
+        Scan/OrbitalCommand=C
+        Scourge/Larva=6
+        ScourgeNest/Drone=T
+        Scout/Stargate=T
+        SelectBuilder=4
+        SelfRepair/Thor=F
+        SensorTower/SCV=T
+        Sentry=C
+        SiegeMode=Space
+        SiegeTank/Factory=Space
+        SiegeTankMengsk/FactoryMengsk=Space
+        SmartCommand=RightMouseButton
+        Snipe/Ghost=R,C
+        SpawnBanelings/K5Kerrigan=Space
+        SpawnChangeling/Overseer=E,F
+        SpawningPool/Drone=D
+        SpawningPoolStetmann/Drone=D
+        Spectre/Barracks=6
+        SpiderMine/Vulture=E,F
+        SpineCrawler/Drone=C
+        SpineCrawlerUproot/SpineCrawler=Space,4
+        Spire/Drone=R
+        SpireStetmann/Drone=R
+        SporeCrawler/Drone=Space
+        SporeCrawlerUproot/SporeCrawler=Space,4
+        Stalker=R
+        Stargate/Harvester=R
+        Stargate/Probe=R
+        Starport/SCV=R
+        StarportMengsk/SCVMengsk=R
+        Stim=Space
+        Stimpack/BarracksTechLab=Space
+        Stop=V
+        StopBunker/Bunker=V
+        StukovInfestedSiegeTankRoot/StukovInfestedSiegeTank=R
+        StukovInfestedSiegeTankUproot/StukovInfestedSiegeTank=Space
+        SummonNydusWorm/NydusNetwork=Space
+        SupplyDepot/SCV=D
+        SupplyDepotMengsk/SCVMengsk=D
+        SwarmHost/SwarmHostMP=E
+        SwarmHostBurrowDown=R
+        SwarmHostBurrowUp=Space
+        SwarmHostMP/Larva=5
+        SwarmHostRoot=R
+        SwarmHostUproot=Space
+        TargetChoose=Space
+        TargetCancel=V
+        TechLabBarracks/Barracks=C
+        TechLabFactory/Factory=C
+        TechLabStarport/Starport=C
+        Tempest/Stargate=V
+        TempestDisruptionBlast/Tempest=E,Space
+        TemplarArchive/Harvester=Space
+        TemplarArchive/Probe=Space
+        TemporalField/MothershipCore=E
+        TerranBuild/SCV=Space,C
+        TerranBuildAdvanced/SCV=E
+        TerranInfantryArmorLevel1/EngineeringBay=Space
+        TerranInfantryWeaponsLevel1/EngineeringBay=D
+        TerranShipWeaponsLevel1/Armory=D
+        TerranVehicleWeaponsLevel1/Armory=E
+        Thor/Factory=G
+        ThorDefensiveMatrix/Thor=E
+        TransportMode/WarpPrism=R
+        TwilightCouncil/Harvester=F
+        TwilightCouncil/Probe=F
+        Ultralisk/Larva=G
+        UltraliskCavern/Drone=G
+        UltraliskCavernStetmann/Drone=G
+        Unsiege=R
+        UpgradeToPlanetaryFortress/CommandCenter=D
+        UpgradeToWarpGate/Gateway=E
+        VikingFighter/Starport=D
+        Viper/Larva=4
+        ViperConsume/Viper=Space
+        VoidRay/Stargate=R
+        VoidRay/StargateWarp=R
+        VoidRay/SuperWarpGate=V
+        VoidRaySwarmDamageBoost/VoidRay=Space,E,C
+        VoidSentryShieldRepair/Sentry=C
+        Vortex/Mothership=E
+        Vulture/Factory=R
+        WarHound/Factory=F
+        WarpInAdept/Gateway=F
+        WarpInAdept/WarpGate=F
+        WarpPrism/RoboticsFacility=F
+        WarpPrismLoad=C
+        WarpinDisruptor/RoboticsFacility=V
+        WidowMine/Factory=F
+        WidowMineBurrow/WidowMine=Space
+        WidowMineUnburrow/WidowMine=R
+        Wraith/Starport=T
+        WraithCloakOn/Wraith=Space
+        YamatoGun=E,Space
+        ZagaraBileLauncher/Drone=R
+        ZagaraVoidCoopBanelingBarrage/ZagaraVoidCoop=E
+        ZagaraVoidCoopBanelingSpawner/ZagaraVoidCoop=C
+        ZagaraVoidCoopMassFrenzy/ZagaraVoidCoop=Space
+        ZagaraVoidCoopNydusWorm/NydusNetwork=Space
+        ZagaraVoidCoopSpawnHunterKillers/ZagaraVoidCoop=F
+        Zealot=D
+        ZergBuild/Drone=Space,C
+        ZergBuildAdvanced/Drone=E
+        Zergling/Larva=D
+        ZerglingStetmann/LarvaStetmann=D
+        hydraliskspeed/HydraliskDen=E
+        overlordspeed=V
+        zerglingattackspeed/SpawningPool=D
+        zerglingmovementspeed/SpawningPool=E
+        zergmeleeweapons1/EvolutionChamber=D
+        zergmissileweapons1/EvolutionChamber=F`;
 
-<script>
-// ─── CONFIG (full – pasted from file) ──────────────────────────────
-const CFG = `[Settings]
-AllowSetConflicts=1
-
-[Hotkeys]
-FPS=Alt+F2
-Music=Shift+F8
-Sound=Shift+F7
-PTT=Alt+F1
-AICommunication=Shift+Alt+5
-AIArmy=Shift+Alt+R
-AIScout=Shift+Alt+T
-AIDetect=Shift+Alt+F
-AIExpand=Shift+Alt+C
-AIBuild=Shift+Alt+4
-AIClearAll=Shift+Alt+G
-AIDelete=Shift+Alt+V
-AlertRecall=Shift+Grave
-ArmySelect=Control+Tab,Control+Shift+Tab
-CameraCenter=Alt+Tab,Alt+CapsLock,Alt+Grave,Alt+Shift
-CameraFollow=Insert
-CameraTurnLeft=Alt+T
-CameraTurnRight=Alt+G
-CameraPush=MiddleMouseButton
-CommanderAbility0=Shift+F3
-CommanderAbility1=Shift+F4
-CommanderAbility2=Shift+F5
-CommanderAbility3=Shift+F6
-ControlGroupAppend0=Control+Alt+X
-ControlGroupAppend1=Control+Alt+1
-ControlGroupAppend2=Control+Alt+2
-ControlGroupAppend3=Control+Alt+3
-ControlGroupAppend4=Control+Alt+Q
-ControlGroupAppend5=Control+Alt+W
-ControlGroupAppend6=Control+Alt+CapsLock
-ControlGroupAppend7=Control+Alt+A
-ControlGroupAppend8=Control+Alt+S
-ControlGroupAppend9=Control+Alt+Z
-ControlGroupAppendAndSteal0=Control+X
-ControlGroupAppendAndSteal1=Control+1
-ControlGroupAppendAndSteal2=Control+2
-ControlGroupAppendAndSteal3=Control+3
-ControlGroupAppendAndSteal4=Control+Q
-ControlGroupAppendAndSteal5=Control+W,Alt+D,Alt+Q
-ControlGroupAppendAndSteal6=Control+CapsLock
-ControlGroupAppendAndSteal7=Control+A
-ControlGroupAppendAndSteal8=Control+S
-ControlGroupAppendAndSteal9=Control+Z
-ControlGroupAssign0=Shift+Alt+X
-ControlGroupAssign1=Shift+Alt+1
-ControlGroupAssign2=Shift+Alt+2
-ControlGroupAssign3=Shift+Alt+3
-ControlGroupAssign4=Shift+Alt+Q
-ControlGroupAssign5=Shift+Alt+W
-ControlGroupAssign6=Shift+Alt+CapsLock
-ControlGroupAssign7=Shift+Alt+A
-ControlGroupAssign8=Shift+Alt+S
-ControlGroupAssign9=Shift+Alt+Z
-ControlGroupAssignAndSteal0=Control+Shift+X
-ControlGroupAssignAndSteal1=Control+Shift+1
-ControlGroupAssignAndSteal2=Control+Shift+2
-ControlGroupAssignAndSteal3=Control+Shift+3
-ControlGroupAssignAndSteal4=Control+Shift+Q
-ControlGroupAssignAndSteal5=Control+Shift+W
-ControlGroupAssignAndSteal6=Control+Shift+CapsLock,Grave
-ControlGroupAssignAndSteal7=Control+Shift+A
-ControlGroupAssignAndSteal8=Control+Shift+S
-ControlGroupAssignAndSteal9=Control+Shift+Z
-ControlGroupRecall0=X
-ControlGroupRecall1=1,Shift+V
-ControlGroupRecall2=2
-ControlGroupRecall3=3
-ControlGroupRecall4=Q
-ControlGroupRecall5=W
-ControlGroupRecall6=CapsLock
-ControlGroupRecall7=A
-ControlGroupRecall8=S
-ControlGroupRecall9=Z
-GameTooltipsOn=NumPadMultiply
-MinimapColors=F2
-MinimapPing=Apostrophe
-MinimapTerrain=Shift+F1
-QuickPing=Alt+RightMouseButton
-QuickSave=NumPad0
-SelectionCancelDrag=RightMouseButton
-Selection=LeftMouseButton
-SmartCommand=RightMouseButton,Shift+Alt+RightMouseButton
-StatusAll=BackSlash
-StatusOwner=BracketClose
-StatusEnemy=Alt,Control,Control+Alt,Shift+Alt
-SubgroupNext=Tab,ForwardMouseButton
-SubgroupPrev=Shift+Tab,BackMouseButton
-TargetCancel=RightMouseButton,V
-TargetChoose=LeftMouseButton,Space,R,T,Y,D,F,G,H
-TeamResources=Shift+F2
-TownCamera=B,Shift+Alt+E
-WarpIn=Period
-CameraSave0=Alt+W
-CameraSave1=Alt+1,Control+V
-CameraSave2=Alt+2,Control+F
-CameraSave3=Alt+3,Control+R
-CameraSave4=Alt+A
-CameraSave5=Alt+S
-CameraSave6=Alt+Z
-CameraSave7=Alt+X
-CameraView0=Shift+W
-CameraView1=Shift+1,Control+C
-CameraView2=Shift+2,Control+D
-CameraView3=Shift+3,Control+E
-CameraView4=Shift+A
-CameraView5=Shift+S
-CameraView6=Shift+Z
-CameraView7=Shift+X
-
-[Commands]
-250mmStrikeCannons/Thor=C
-330mmBarrageCannons/Thor=C
-ACAlarakPhasingMode/WarpPrismTaldarim=Space
-ACAlarakTransportMode/WarpPrismTaldarim=R
-AWrp=F
-AbathurDeepTunnel=F
-AbathurDeepTunnel/ImpalerAbathur=F
-AbathurDeepTunnel/SwarmHost=F
-Aberration/Larva=Y
-Aberration/VoidRift=5
-AberrationProtectiveCover/InfestedAbomination=C
-ActivateShieldGenerator/ShadowShieldGenerator=Space
-ActivateStasisWard/OracleStasisTrap=T
-AdeptHallucination/Sentry=H
-AdeptPhaseShift/Adept=Space,E,C
-AdeptResearchPiercingUpgrade/TwilightCouncil=F
-AdvancedConstructionAuto/SCV=4
-AlarakDeadlyCharge=Space
-AlarakDeadlyCharge/AlarakCoop=Space
-AlarakKnockback/AlarakChampion=E
-AlarakMindBlast/PitAlarak=C
-AlarakMothershipMassTeleport/SOAMothershipv4=R
-AlarakPsiOrb/PitAlarak=E
-AnionPulseCrystals/FleetBeacon=D
-ApocaliskBurrowCharge/StukovApocalisk=Space
-Apocalypse/K5Kerrigan=F
-ApolloCloakOnNova/NovaHero=F
-Arbiter/Stargate=G
-Arbiter/StargateWarp=G
-ArbiterMPRecall/ArbiterMP=R
-ArbiterMPStasisField/ArbiterMP=E,Space
-Archon/SuperWarpGate=N
-ArchonAdvancedMergeSelection=F
-ArchonHallucination/Nexus=F
-ArchonHallucination/Sentry=F
-Armory/SCV=F
-ArmoryMengsk/SCVMengsk=F
-ArtanisAstralWind/ArtanisVoid=E
-ArtanisChannel/ArtanisVoid=Space
-ArtanisChannelOff/ArtanisVoid=F
-ArtanisLightningDash/ArtanisVoid=R
-ArtilleryMengsk/SCVMengsk=G
-ArtilleryMengsk/TrooperMengsk=G
-ArtilleryMengskBombardment/ArtilleryMengsk=Space
-AscendantSacrifice/HighTemplarTaldarim=R
-AssaultMode=R
-Assimilator/Harvester=F
-Assimilator/Probe=F
-Attack=D
-AutoTurret/Raven=Space,4
-AutomatedExtractor/Drone=F
-AutomatedRefinery/SCV=F
-Baneling/Zergling=F
-BanelingNest/Drone=T
-BanelingStetmann/ZerglingStetmann=F
-Banshee/Starport=V
-BansheeSpeed/StarportTechLab=V
-Barracks/SCV=C
-BarracksMengsk/SCVMengsk=C
-BatteryOvercharge/Nexus=C
-Battlecruiser/Starport=G
-BattlecruiserMengsk/StarportMengsk=G
-BattlecruiserMengskHyperjump/BattlecruiserMengsk=R
-BileLauncherBombardment/BileLauncherZagara=E,Space
-BioPlasmidDischarge/Leviathan=E,Space
-BioStasis/Leviathan=C
-BlindingCloud/Viper=C,R
-Blink/Stalker=Space
-Blink/ZeratulStalker=Space
-BlinkShieldRestoreUpgrade/StalkerShakuras=C
-BroodLord/Corruptor=F
-BroodLord/MutaliskBroodlord=F
-BroodLordStetmann/CorruptorStetmann=F
-Brutalisk/Larva=4
-BrutaliskDeepTunnel/Brutalisk=C,F
-BuildCreepTumor/Queen=C
-BuildCreepTumor/QueenCoop=C
-BuildCreepTumorPropagate/CreepTumorBurrowed=C,Space
-BuildCyclone/Factory=V
-BuildHealingDrone/Raven=R
-BuildHercules/Starport=H
-BuildScarab/Reaver=Space
-BuildScienceVessel/Starport=C
-BuildTechLabFactory/FactoryFlying=C
-BuildTechLabStarport/StarportFlying=C
-Bunker/SCV=R
-BunkerLoad=C
-BunkerUnloadAll=E
-BurrowChargeCampaign/Ultralisk=Space
-BurrowDown=R
-BurrowHydraliskImpalerDown=R
-BurrowHydraliskImpalerUp=Space,4
-BurrowHydraliskLurkerDown=R
-BurrowHydraliskLurkerUp=Space,4
-BurrowLurkerMP=R
-BurrowUp=4
-CalldownMULE/CommandCenter=E
-CalldownMULE/OrbitalCommand=E
-Cancel=Escape
-CancelCocoon=Escape
-CancelMutateMorph=Escape
-CancelUpgradeMorph=Escape
-Carrier/Stargate=G
-Carrier/StargateWarp=G
-Carrier/SuperWarpGate=E
-CausticSpray/Corruptor=E,Space
-ChannelSnipe/Ghost=C,R
-Charge/Zealot=Space
-Charge/ZealotAiur=Space
-Charge/ZealotDark=Space
-Charge/ZealotPurifier=Space
-ChronoBoostEnergyCost/Nexus=E
-CloakOff=F
-CloakOnBanshee=Space
-CloakOnGhost/Ghost=Space
-Colossus/RoboticsFacility=C
-Colossus/RoboticsFacilityWarp=C
-Colossus/SuperWarpGate=G
-CommandCenter/SCV=E
-CommandCenterMengsk/SCVMengsk=E
-CommandCenterUnloadAll=F
-ConsumeDNA/Hybrid=C
-Contaminate/Overseer=C
-CorruptionAbility/Corruptor=C
-Corruptor/Larva=T
-CorsairMPDisruptionWeb/CorsairMP=E,Space
-CyberneticsCore/Harvester=R
-CyberneticsCore/Probe=R
-D8Charge/Reaper=Space
-DarkArchon/Gateway=F
-DarkArchon/WarpGate=F
-DarkArchonConfusion/DarkArchon=C
-DarkArchonMindControl/DarkArchon=E
-DarkShrine/Harvester=T
-DarkShrine/Probe=T
-DarkTemplar=T
-DarkTemplarBlink/DarkTemplar=Space
-DehakaConsume/DehakaCoop=R
-DehakaDeepTunnel/DehakaCoop=C
-DehakaDetector/DehakaCoop=Y
-DehakaDrone/DehakaHatchery=Space
-DehakaHeal/Dehaka=Space
-DehakaHydralisk/DehakaBarracks=C
-DehakaIntimidatingRoar/DehakaCoop=Space
-DehakaLeapStomp/DehakaCoop=E
-DehakaLearnAbilities/DehakaCoop=4
-DehakaMendingAura/DehakaCoop=6
-DehakaMirrorImage/Dehaka=C
-DehakaRoach/DehakaBarracks=R
-DehakaSwarmHost/DehakaBarracks=F
-DehakaUltralisk/DehakaBarracks=G
-DehakaZergling/DehakaBarracks=D
-DeploySpiderMines/SiegeTank=C,F
-Diamondback/Factory=H
-DisableBuildingAttack/Baneling=Space
-Drone/Larva=Space
-EnableBuildingAttack/Baneling=F
-EnergizerReclamation/SentryPurifier=E
-EnergyRecharge/Nexus=C
-EngineeringBay/SCV=4
-EngineeringBayMengsk/SCVMengsk=4
-EvolutionChamber/Drone=4
-EvolveAdrenalineBoost/EvolutionChamber=T
-EvolveAnabolicSynthesis2/UltraliskCavern=E
-EvolveBanelingCorrosiveBile/BanelingNest=D
-EvolveBanelingHeal/BanelingNest=R
-EvolveBanelingRupture/BanelingNest=F
-EvolveBurrowCharge/Hatchery=4
-EvolveBurrowCharge/UltraliskCavern=4
-EvolveCentrificalHooks/BanelingNest=E
-EvolveChitinousPlating/UltraliskCavern=Space
-EvolveCorrosiveBileDamageIncrease/RoachWarren=R
-EvolveCorrosiveBileRadiusIncrease/RoachWarren=F
-EvolveDiggingClaws/LurkerDenMP=E
-EvolveFlyingLocusts/InfestationPit=L
-EvolveFrenzy/HydraliskDen=D
-EvolveGlialRegeneration/RoachWarren=E
-EvolveGroovedSpines/HydraliskDen=D
-EvolveHardenedCarapace/SpawningPool=Space
-EvolveHatcheryDoubleQueue/EvolutionChamber=G
-EvolveHydriodicBile/RoachWarren=C
-EvolveInfestorEnergyUpgrade/InfestationPit=E
-EvolveK5ChainLightning/EvolutionChamber=C
-EvolveK5Cooldowns/EvolutionChamber=V
-EvolveKerriganHeroicFortitude/EvolutionChamber=R
-EvolveMuscularAugments/HydraliskDen=E
-EvolveMutaliskRapidRegeneration/Spire=R
-EvolveOrganicCarapace/RoachWarren=O
-EvolvePeristalsis/InfestationPit=P
-EvolveScourgeGasCostReduction/ScourgeNest=F
-EvolveScourgeSplashDamage/ScourgeNest=R
-EvolveSeveringGlave/Spire=E
-EvolveSunderingGlave/Spire=V
-EvolveTissueAssimilation/UltraliskCavern=R
-EvolveTunnelingClaws/RoachWarren=4
-EvolveViciousGlaive/Spire=T
-EvolveZerglingArmorShred/SpawningPool=R
-Explode/Baneling=E
-Extractor/Drone=F
-Factory/SCV=D
-FactoryMengsk/SCVMengsk=D
-Feedback/HighTemplar=C,Space
-Feedback/Archon=C,Space
-FenixArbiterStasisField/FenixArbiter=C
-FenixClolarionInterceptor/FenixClolarionCarrier=Space
-FenixDragoonChargedBuster/FenixDragoon=Space
-FenixImmortalResearchDetonationShot/RoboticsBay=E
-FenixKaldalisZealotCharge/FenixKaldalisZealot=Space,E
-FenixKaldalisZealotDownloadUpgrade=D
-FenixMojoMissiles/FenixMojoScout=E,Space
-FenixMojoScoutDownloadUpgrade=E
-FenixPurificationNova/Disruptor=E,Space
-FenixSOACharge/FenixSOA=Space
-FenixSentryGuardianZone/SentryFenix=Space
-FenixTaldarinImmortalDownloadUpgrade=R
-FenixTalisAdeptBounceShot/FenixTalisAdept=Space
-FenixTalisAdeptDownloadUpgrade=F
-FenixThunderousChargeCoop/FenixCoop=Space
-FenixWarbringerColossusPowerShot/FenixWarbringerColossus=E,Space
-FenixWhirlwind/FenixSOA=E
-FighterMode=Space
-Firebat/Barracks=V
-FleetBeacon/Harvester=G
-FleetBeacon/Probe=G
-ForceField/Sentry=E,R
-Forge/Harvester=4
-Forge/Probe=4
-FungalGrowth/Infestor=E
-FusionCore/SCV=G
-FusionCoreMengsk/SCVMengsk=G
-Gateway/Harvester=C
-Gateway/Probe=C
-GatherProt=Y
-GenerateCreep/Overlord=4
-Ghost/Barracks=Space
-GhostAcademy/SCV=Space
-GhostAcademyMengsk/SCVMengsk=Space
-GhostHoldFire/Ghost=Y
-Goliath/Factory=T
-GravitonBeam/Phoenix=E,Space
-GravitonBeam/PhoenixPurifier=E,Space
-GravitonCatapult/Carrier=C
-GreaterRoachWarren/RoachWarren=E
-GreaterSpire/Spire=F
-GuardianShield/Sentry=Space
-Hatchery/Drone=E
-HatcheryStetmann/Drone=E
-Heal/Medivac=F
-HealMengsk/MedivacMengsk=F
-Hellion/Factory=D
-HellionTank/Factory=R
-HercGrapple/HERC=Space
-HerculesLoad/Hercules=C
-HerculesUnloadAll/Hercules=E
-HighTemplar=Space
-HighTemplarTaldarim=Space
-Hive/Lair=F
-HiveStetmann/LairStetmann=F
-HoverSiegeMode=E
-HunterSeekerMissile/Raven=C,F
-Hydralisk/Larva=C
-HydraliskDen/Drone=C
-HydraliskDenStetmann/Drone=C
-HydraliskFrenzy/Hydralisk=Space
-HydraliskFrenzy/HydraliskEvolved=Space
-Hyperjump/Battlecruiser=R
-IgniteAfterburner/Medivac=Space,5
-IgniteAfterburners/Banshee=C
-IgniteAfterburners/Battlecruiser=C
-IgniteAfterburners/Liberator=C
-IgniteAfterburners/SiegeTank=C
-IgniteAfterburners/VikingAssault=C
-IgniteAfterburners/Vulture=C
-Immortal=D
-Immortal/Gateway=D
-Immortal/RoboticsFacility=D
-Immortal/RoboticsFacilityWarp=D
-Immortal/WarpGate=D
-ImmortalBarrierBase/Immortal=Space
-ImmortalOverload/Immortal=Space
-ImmortalityProtocol/Thor=F
-Impaler/HydraliskImpaler=F
-ImpalerDen/HydraliskDen=F
-InfestationPit/Drone=F
-InfestationPitStetmann/Drone=F
-InfestedTerrans/Infestor=F
-Infestor/Larva=F
-InjectLarva/Queen=
-Interceptor/Carrier=Space
-Irradiate/ScienceVessel=E
-JackhammerConcussionGrenade/Marauder=C
-K5DropPods/K5Kerrigan=F
-K5Leviathan/K5Kerrigan=F
-KD8Charge/Reaper=Space,E,C
-KerriganVoidCoopCrushingGripWave/K5Kerrigan=F
-KerriganVoidCoopEconDrop/K5Kerrigan=Space
-KhaydarinMonolith/Probe=G
-Lair/Hatchery=F
-LairStetmann/HatcheryStetmann=F
-Land=4
-Larva=Space,D,R,T,G,C
-Liberator/Starport=R
-LiberatorAAMode/Liberator=R
-LiberatorAGMode/Liberator=Space,E
-LightningBomb/Tempest=E,Space
-LockOn/Cyclone=E,C,Space
-LocustLaunch/SwarmHost=E
-LocustLaunch/SwarmHostBurrowed=E
-Lower/SupplyDepot=R
-Lurker/Hydralisk=F
-Lurker/HydraliskImpaler=F
-Lurker/HydraliskLurker=F
-LurkerBurrowDown=R
-LurkerBurrowUp=Space,4
-LurkerCancelHoldFire/LurkerMP=C
-LurkerHoldFire/LurkerMPBurrowed=E
-LurkerMP/Hydralisk=F
-MagrailMunitions/Marauder=E
-MagrailMunitions/Marine=E
-Marauder/Barracks=R
-Marine/Barracks=D
-Medic/Barracks=T
-MedicHeal/Medic=F
-Medivac/Starport=F
-MedivacMengsk/StarportMengsk=F
-MercCompound/SCV=C
-MercReaper/Barracks=G
-MindBlast/Spectre=E
-MindBlast/Tosh=E
-MindBolt/K5Kerrigan=C
-MissileTurret/SCV=Space
-MissileTurretMengsk/SCVMengsk=Space
-Mothership/Nexus=F
-MothershipCore/Nexus=F
-MothershipCoreMassRecall/MothershipCore=R
-MothershipCoreWeapon/MothershipCore=C,Space
-MothershipMassRecall/Mothership=R
-Move=H
-MoveHoldPosition=G
-MovePatrol=T
-Mutalisk/Larva=V
-MutateintoLurkerDen/HydraliskDen=F
-NPSwarm/Infestor=Space
-NanoRepair/ScienceVessel=F
-NeuralParasite/Infestor=Space
-Nexus/Harvester=E
-Nexus/Probe=E
-NexusMassRecall/Nexus=R
-NexusShieldRecharge/Nexus=C
-NovaDomination/NovaHero=R
-NovaSnipe/Nova=R,C
-NovaSwitchAssaultMode=R
-NovaUnitNuke=5
-NukeCalldown/Ghost=4
-NydusNetwork/Drone=D
-Observer/RoboticsFacility=Space
-Observer/RoboticsFacilityWarp=Space
-OdinBarrage/Odin=C
-Oracle/Stargate=F
-Oracle/StargateWarp=F
-Oracle/SuperWarpGate=G
-OracleRevelation/Oracle=C
-OracleWeaponOff=F
-OracleWeaponOn=Space
-OrbitalCommand/CommandCenter=E
-OrbitalCommand/CommandCenterMengsk=E
-OrbitalCommandCalldownSupplyDepot/OrbitalCommand=D
-Overlord/Larva=E
-ParasiticBomb/Viper=4
-PhasingMode/WarpPrism=Space
-Phoenix/Stargate=D
-Phoenix/StargateWarp=D
-Phoenix/SuperWarpGate=F
-PhotonCannon/Harvester=Space
-PhotonCannon/Probe=Space
-Predator/Factory=F
-Probe/Nexus=Space
-ProtossBuild/Harvester=Space,C
-ProtossBuild/Probe=Space,C
-ProtossBuildAdvanced/Harvester=E
-ProtossBuildAdvanced/Probe=E
-ProtossGroundArmorLevel1/Forge=Space
-ProtossGroundWeaponsLevel1/Forge=D
-ProtossShieldsLevel1/Forge=E
-PsiStorm/HighTemplar=E,R
-PsiStorm/Archon=E,R
-PsiStrike/K5Kerrigan=E
-PsionicLift/K5Kerrigan=E
-PurificationNova/Disruptor=Space
-PurificationNovaTargeted/Disruptor=E,C,Space
-Pylon/Harvester=D
-Pylon/Probe=D
-Queen=E
-QueenCoop=E
-QueenBurstHeal/Queen=4
-QueenClassic=6
-QueenMPSpawnBroodlings/QueenMP=Space
-Raise/SupplyDepotLowered=Space,4
-Rally=0
-RallyEgg=9
-RallySCV=0
-RapidIncubation/SwarmHost=C
-Ravager/Roach=F
-RavagerCorrosiveBile/Ravager=E,Space
-Raven/Starport=Space
-RavenRepairDrone/Raven=Space,4
-RavenScramblerMissile/Raven=E
-RavenShredderMissile/Raven=C,R
-Reactor/Barracks=E
-Reactor/Factory=E
-Reactor/Starport=E
-Reaper/Barracks=F
-ReaperSpeed/BarracksTechLab=F
-ReaverScarabs/Reaver=Space
-Refinery/SCV=F
-RefineryMengsk/SCVMengsk=F
-ReleaseInterceptors/Carrier=R
-Repair=R
-Research330mmBarrageCannon/FactoryTechLab=G
-ResearchBarrier/RoboticsBay=D
-ResearchBansheeCloak/StarportTechLab=4
-ResearchBattlecruiserEnergyUpgrade/FusionCore=Space
-ResearchCharge/TwilightCouncil=D
-ResearchDarkArchonMindControl/DarkShrine=E
-ResearchDarkTemplarBlink/DarkShrine=T
-ResearchDrillClaws/FactoryTechLab=F
-ResearchExtendedThermalLance/RoboticsBay=C
-ResearchGraviticBooster/RoboticsBay=Space
-ResearchGraviticDrive/RoboticsBay=F
-ResearchHallucination/CyberneticsCore=R
-ResearchHighTemplarEnergyUpgrade/TemplarArchive=E
-ResearchInterceptorLaunchSpeedUpgrade/FleetBeacon=G
-ResearchLockOnRangeUpgrade/FactoryTechLab=V
-ResearchPsiStorm/TemplarArchive=Space
-ResearchRavenEnergyUpgrade/StarportTechLab=Space
-ResearchReaverIncreasedScarabCount/RoboticsBay=G
-ResearchSeekerMissile/StarportTechLab=R
-ResearchSiegeTech/FactoryTechLab=Space
-ResearchStalkerTeleport/TwilightCouncil=R
-ResearchSunderingImpact/TwilightCouncil=Space
-ResearchWarpGate/CyberneticsCore=E
-ResearchWhirlwind/TwilightCouncil=C
-ReturnCargo=F
-Roach/Larva=R
-RoachWarren/Drone=R
-RoboticsBay/Harvester=C
-RoboticsBay/Probe=C
-RoboticsFacility/Harvester=D
-RoboticsFacility/Probe=D
-SCV=Space
-SCVMengsk=Space
-Scan/CommandCenter=C
-Scan/OrbitalCommand=C
-Scourge/Larva=6
-ScourgeNest/Drone=T
-Scout/Stargate=T
-SelectBuilder=4
-SelfRepair/Thor=F
-SensorTower/SCV=T
-Sentry=C
-SiegeMode=Space
-SiegeTank/Factory=Space
-SiegeTankMengsk/FactoryMengsk=Space
-SmartCommand=RightMouseButton
-Snipe/Ghost=R,C
-SpawnBanelings/K5Kerrigan=Space
-SpawnChangeling/Overseer=E,F
-SpawningPool/Drone=D
-SpawningPoolStetmann/Drone=D
-Spectre/Barracks=6
-SpiderMine/Vulture=E,F
-SpineCrawler/Drone=C
-SpineCrawlerUproot/SpineCrawler=Space,4
-Spire/Drone=R
-SpireStetmann/Drone=R
-SporeCrawler/Drone=Space
-SporeCrawlerUproot/SporeCrawler=Space,4
-Stalker=R
-Stargate/Harvester=R
-Stargate/Probe=R
-Starport/SCV=R
-StarportMengsk/SCVMengsk=R
-Stim=Space
-Stimpack/BarracksTechLab=Space
-Stop=V
-StopBunker/Bunker=V
-StukovInfestedSiegeTankRoot/StukovInfestedSiegeTank=R
-StukovInfestedSiegeTankUproot/StukovInfestedSiegeTank=Space
-SummonNydusWorm/NydusNetwork=Space
-SupplyDepot/SCV=D
-SupplyDepotMengsk/SCVMengsk=D
-SwarmHost/SwarmHostMP=E
-SwarmHostBurrowDown=R
-SwarmHostBurrowUp=Space
-SwarmHostMP/Larva=5
-SwarmHostRoot=R
-SwarmHostUproot=Space
-TargetChoose=Space
-TargetCancel=V
-TechLabBarracks/Barracks=C
-TechLabFactory/Factory=C
-TechLabStarport/Starport=C
-Tempest/Stargate=V
-TempestDisruptionBlast/Tempest=E,Space
-TemplarArchive/Harvester=Space
-TemplarArchive/Probe=Space
-TemporalField/MothershipCore=E
-TerranBuild/SCV=Space,C
-TerranBuildAdvanced/SCV=E
-TerranInfantryArmorLevel1/EngineeringBay=Space
-TerranInfantryWeaponsLevel1/EngineeringBay=D
-TerranShipWeaponsLevel1/Armory=D
-TerranVehicleWeaponsLevel1/Armory=E
-Thor/Factory=G
-ThorDefensiveMatrix/Thor=E
-TransportMode/WarpPrism=R
-TwilightCouncil/Harvester=F
-TwilightCouncil/Probe=F
-Ultralisk/Larva=G
-UltraliskCavern/Drone=G
-UltraliskCavernStetmann/Drone=G
-Unsiege=R
-UpgradeToPlanetaryFortress/CommandCenter=D
-UpgradeToWarpGate/Gateway=E
-VikingFighter/Starport=D
-Viper/Larva=4
-ViperConsume/Viper=Space
-VoidRay/Stargate=R
-VoidRay/StargateWarp=R
-VoidRay/SuperWarpGate=V
-VoidRaySwarmDamageBoost/VoidRay=Space,E,C
-VoidSentryShieldRepair/Sentry=C
-Vortex/Mothership=E
-Vulture/Factory=R
-WarHound/Factory=F
-WarpInAdept/Gateway=F
-WarpInAdept/WarpGate=F
-WarpPrism/RoboticsFacility=F
-WarpPrismLoad=C
-WarpinDisruptor/RoboticsFacility=V
-WidowMine/Factory=F
-WidowMineBurrow/WidowMine=Space
-WidowMineUnburrow/WidowMine=R
-Wraith/Starport=T
-WraithCloakOn/Wraith=Space
-YamatoGun=E,Space
-ZagaraBileLauncher/Drone=R
-ZagaraVoidCoopBanelingBarrage/ZagaraVoidCoop=E
-ZagaraVoidCoopBanelingSpawner/ZagaraVoidCoop=C
-ZagaraVoidCoopMassFrenzy/ZagaraVoidCoop=Space
-ZagaraVoidCoopNydusWorm/NydusNetwork=Space
-ZagaraVoidCoopSpawnHunterKillers/ZagaraVoidCoop=F
-Zealot=D
-ZergBuild/Drone=Space,C
-ZergBuildAdvanced/Drone=E
-Zergling/Larva=D
-ZerglingStetmann/LarvaStetmann=D
-hydraliskspeed/HydraliskDen=E
-overlordspeed=V
-zerglingattackspeed/SpawningPool=D
-zerglingmovementspeed/SpawningPool=E
-zergmeleeweapons1/EvolutionChamber=D
-zergmissileweapons1/EvolutionChamber=F`;
-
-// ─── RACE / SUBS ──────────────────────────────────────────────────────
-const RACES = [
-    { id: 'Global', n: 'Global', c: '#78909c' },
-    { id: 'Terran', n: 'Terran', c: '#2196f3' },
-    { id: 'Protoss', n: 'Protoss', c: '#ffc107' },
-    { id: 'Zerg', n: 'Zerg', c: '#4caf50' }
-];
-const SUBS = {
-    Global: ['Core', 'Camera', 'Control Groups', 'System'],
-    Terran: ['Build', 'Train', 'Abilities', 'Upgrades'],
-    Protoss: ['Build', 'Train', 'Abilities', 'Upgrades'],
-    Zerg: ['Build', 'Train', 'Abilities', 'Upgrades']
-};
-
-// ─── KEYBOARD LAYOUT ──────────────────────────────────────────────────
-const KB_ROWS = [
-    [{ id: 'ESC', l: 'Esc', w: 1.4 }, null, { id: 'F1', l: 'F1', w: 1 }, { id: 'F2', l: 'F2', w: 1 }, { id: 'F3', l: 'F3', w: 1 }, { id: 'F4', l: 'F4', w: 1 }, null, { id: 'F5', l: 'F5', w: 1 }, { id: 'F6', l: 'F6', w: 1 }, { id: 'F7', l: 'F7', w: 1 }, { id: 'F8', l: 'F8', w: 1 }, null, { id: 'F9', l: 'F9', w: 1 }, { id: 'F10', l: 'F10', w: 1 }, { id: 'F11', l: 'F11', w: 1 }, { id: 'F12', l: 'F12', w: 1 } ],
-    [{ id: 'GRAVE', l: '`', w: 1 }, { id: '1', l: '1', w: 1 }, { id: '2', l: '2', w: 1 }, { id: '3', l: '3', w: 1 }, { id: '4', l: '4', w: 1 }, { id: '5', l: '5', w: 1 }, { id: '6', l: '6', w: 1 }, { id: '7', l: '7', w: 1 }, { id: '8', l: '8', w: 1 }, { id: '9', l: '9', w: 1 }, { id: '0', l: '0', w: 1 }, { id: 'MINUS', l: '-', w: 1 }, { id: 'EQUALS', l: '=', w: 1 }, { id: 'BKSP', l: '⌫', w: 1.9 } ],
-    [{ id: 'TAB', l: 'Tab', w: 1.4 }, { id: 'Q', l: 'Q', w: 1 }, { id: 'W', l: 'W', w: 1 }, { id: 'E', l: 'E', w: 1 }, { id: 'R', l: 'R', w: 1 }, { id: 'T', l: 'T', w: 1 }, { id: 'Y', l: 'Y', w: 1 }, { id: 'U', l: 'U', w: 1 }, { id: 'I', l: 'I', w: 1 }, { id: 'O', l: 'O', w: 1 }, { id: 'P', l: 'P', w: 1 }, { id: 'LBRACKET', l: '[', w: 1 }, { id: 'RBRACKET', l: ']', w: 1 }, { id: 'BSLASH', l: '\\', w: 1.5 } ],
-    [{ id: 'CAPS', l: 'Caps', w: 1.65 }, { id: 'A', l: 'A', w: 1 }, { id: 'S', l: 'S', w: 1 }, { id: 'D', l: 'D', w: 1 }, { id: 'F', l: 'F', w: 1 }, { id: 'G', l: 'G', w: 1 }, { id: 'H', l: 'H', w: 1 }, { id: 'J', l: 'J', w: 1 }, { id: 'K', l: 'K', w: 1 }, { id: 'L', l: 'L', w: 1 }, { id: 'SEMICOLON', l: ';', w: 1 }, { id: 'APOSTROPHE', l: "'", w: 1 }, { id: 'ENTER', l: 'Enter', w: 2.25 } ],
-    [{ id: 'SHIFT', l: 'Shift', w: 2.15 }, { id: 'Z', l: 'Z', w: 1 }, { id: 'X', l: 'X', w: 1 }, { id: 'C', l: 'C', w: 1 }, { id: 'V', l: 'V', w: 1 }, { id: 'B', l: 'B', w: 1 }, { id: 'N', l: 'N', w: 1 }, { id: 'M', l: 'M', w: 1 }, { id: 'COMMA', l: ',', w: 1 }, { id: 'PERIOD', l: '.', w: 1 }, { id: 'SLASH', l: '/', w: 1 }, { id: 'SHIFT', l: 'Shift', w: 2.75 } ],
-    [{ id: 'CTRL', l: 'Ctrl', w: 1.5 }, { id: 'WIN', l: 'Win', w: 1.15 }, { id: 'ALT', l: 'Alt', w: 1.35 }, { id: 'SPACE', l: 'Space', w: 6.2 }, { id: 'ALT', l: 'Alt', w: 1.35 }, { id: 'WIN', l: 'Win', w: 1.15 }, { id: 'MENU', l: 'Menu', w: 1.15 }, { id: 'CTRL', l: 'Ctrl', w: 1.5 } ]
-];
-const M_KEYS = [{ id: 'LMB', l: 'LMB', w: 1.4 }, { id: 'RMB', l: 'RMB', w: 1.4 }, { id: 'MMB', l: 'MMB', w: 1.1 }, null, { id: 'MB4', l: 'MB4', w: 1.1 }, { id: 'MB5', l: 'MB5', w: 1.1 }, null, { id: 'INSERT', l: 'Ins', w: 1 } ];
-
-const NM = { Space:'SPACE', Tab:'TAB', CapsLock:'CAPS', Escape:'ESC', Enter:'ENTER', Backspace:'BKSP', Insert:'INSERT', Shift:'SHIFT', Control:'CTRL', Alt:'ALT', Grave:'GRAVE', Minus:'MINUS', Equals:'EQUALS', BracketOpen:'LBRACKET', BracketClose:'RBRACKET', BackSlash:'BSLASH', Semicolon:'SEMICOLON', Apostrophe:'APOSTROPHE', Comma:'COMMA', Period:'PERIOD', Slash:'SLASH', LeftMouseButton:'LMB', RightMouseButton:'RMB', MiddleMouseButton:'MMB', ForwardMouseButton:'MB4', BackMouseButton:'MB5', NumPad0:'NP0', NumPadMultiply:'NPMUL' };
-function nk(n) { if(n.length===1) return n; if(/^F\d+$/.test(n)) return n; return NM[n]||n }
-function fmt(n) { return n.replace(/([a-z])([A-Z])/g,'$1 $2').replace(/([A-Z]+)([A-Z][a-z])/g,'$1 $2').replace(/([a-z])(\d)/g,'$1 $2').replace(/(\d)([a-z])/gi,'$1 $2'); }
-
-// ─── MELEE DETECTION ──────────────────────────────────────────────────
-const NON_MELEE_TERMS = [
-    'Alarak','Artanis','Zagara','Dehaka','Fenix','Kerrigan','Nova',
-    'Stukov','Tychus','Swann','Raynor','Vorazun','Abathur','Karax',
-    'Zeratul','Mengsk','Stetmann','Coop','VoidCoop','Epilogue','Prologue','Campaign',
-    'ReviveBeacon','Champion','Warbringer','Clolarion','Mojo','Kaldalis','Taldarin','Talis',
-    'K5','VoidRift','VoidThrasher','VoidShard','NydusDestroyer','XelNaga','Primal','HotS',
-    'ZagaraVoid','KerriganVoid','DehakaCoop','FenixCoop','ArtanisVoid','AlarakCoop',
-    'NovaHero','StukovApocalisk','BileLauncherZagara','Apocalisk','ZagaraRevive',
-    'BroodMother','QueenCoop','ZaGara','K5Kerrigan','FenixSOA',
-    'HighTemplarTaldarim','WarpPrismTaldarim','PitAlarak','SOAMothership',
-    'ShadowShieldGenerator','OracleStasisTrap','MercCompound','HellionBlackOps',
-    'SiegeTank_BlackOps','Ghost_BlackOps','Marauder_BlackOps','Marine_BlackOps',
-    'Medivac_BlackOps','Banshee_BlackOps','Raven_BlackOps','Viking_BlackOps',
-    'WidowMine_BlackOps','Liberator_BlackOps','Reaper_BlackOps','Hellbat_BlackOps',
-    'Goliath_BlackOps','Predator_BlackOps','Diamondback_BlackOps','WarHound_BlackOps',
-    'Hercules_BlackOps','ScienceVessel_BlackOps','GhostVulture','NovaCoop','Tosh','Spectre'
-];
-function isMelee(action, ctx, sec) {
-    if(sec==='hotkeys') return true;
-    const full = (action+' '+ctx).toLowerCase();
-    for(const term of NON_MELEE_TERMS) if(full.includes(term.toLowerCase())) return false;
-    if(/coop|void/i.test(full)) return false;
-    return true;
-}
-
-// ─── CATEGORY MAPPING ──────────────────────────────────────────────────
-function getHotkeyCategory(action) {
-    if(action.startsWith('ControlGroupAppendAndSteal')) return 'Control Group Append & Steal';
-    if(action.startsWith('ControlGroupAppend')) return 'Control Group Append';
-    if(action.startsWith('ControlGroupAssignAndSteal')) return 'Control Group Assign & Steal';
-    if(action.startsWith('ControlGroupAssign')) return 'Control Group Assign';
-    if(action.startsWith('ControlGroupRecall')) return 'Control Group Recall';
-    if(action.startsWith('CameraSave')) return 'Camera Save';
-    if(action.startsWith('CameraView')) return 'Camera View';
-    if(action.startsWith('CameraCenter')||action.startsWith('CameraFollow')||action.startsWith('CameraTurn')||action==='CameraPush') return 'Camera Move';
-    if(action.startsWith('TownCamera')) return 'Camera Town';
-    if(action.startsWith('Minimap')) return 'Minimap';
-    if(action.startsWith('QuickPing')) return 'Ping';
-    if(action==='StatusAll'||action==='StatusOwner'||action==='StatusEnemy'||action==='SmartCommand'||action==='Selection'||action==='SubgroupNext'||action==='SubgroupPrev'||action==='TargetChoose'||action==='TargetCancel'||action==='AlertRecall'||action==='ArmySelect') return 'Selection / Targeting';
-    if(action.startsWith('CommanderAbility')) return 'Commander Abilities';
-    if(action==='FPS'||action==='Music'||action==='Sound'||action==='PTT'||action==='GameTooltipsOn'||action==='QuickSave'||action==='TeamResources'||action==='WarpIn'||action==='MinimapTerrain'||action==='MinimapColors') return 'System / UI';
-    return 'Other';
-}
-
-function classify(action, ctx, sec) {
-    if(sec==='hotkeys') {
-        const cat = getHotkeyCategory(action);
-        return ['Global', cat];
-    }
-    const full = action+' '+ctx;
-    let race='Global';
-    const tw=/SCV|Mengsk|Barracks|Factory|Starport|CommandCenter|OrbitalCommand|EngineeringBay|Armory|GhostAcademy|FusionCore|Bunker|SupplyDepot|Refinery|MissileTurret|Marine|Marauder|Medic|Firebat|Reaper|Ghost|Spectre|Hellion|SiegeTank|Viking|Medivac|Banshee|Raven|Battlecruiser|Thor|Cyclone|WidowMine|Liberator|Vulture|ScienceVessel|Stukov|Nova|Tychus|Swann|Raynor|SiegeMode|Unsiege|Stim|CloakOn|CalldownMULE|Scan|TrooperMengsk|HERC|Warhound|Diamondback/i;
-    const pw=/Probe|Harvester|Nexus|Gateway|CyberneticsCore|Forge|RoboticsFacility|Stargate|FleetBeacon|TwilightCouncil|TemplarArchive|DarkShrine|RoboticsBay|Pylon|PhotonCannon|ShieldBattery|Assimilator|Zealot|Stalker|Sentry|Adept|HighTemplar|DarkTemplar|Archon|Immortal|Colossus|Disruptor|Phoenix|VoidRay|Oracle|Tempest|Carrier|Mothership|WarpPrism|Observer|Arbiter|Reaver|Scout|Corsair|DarkArchon|WarpGate|SuperWarpGate|Fenix|Alarak|Artanis|Karax|Vorazun|Zeratul/i;
-    const zw=/Drone|Hatchery|Lair|Hive|SpawningPool|EvolutionChamber|RoachWarren|HydraliskDen|BanelingNest|InfestationPit|Spire|GreaterSpire|UltraliskCavern|NydusNetwork|Extractor|SpineCrawler|SporeCrawler|CreepTumor|Zergling|Baneling|Roach|Ravager|Hydralisk|Lurker|Infestor|SwarmHost|Ultralisk|Mutalisk|Corruptor|BroodLord|Viper|Queen|Overlord|Overseer|Scourge|Defiler|Larva|Kerrigan|Zagara|Abathur|Dehaka|Stetmann|HotS|Primal|K5|Burrow|InjectLarva|Impaler|LurkerDen|ImpalerDen|ScourgeNest|BroodMother/i;
-    if(tw.test(full)||/^Terran|^Mengsk|^Stukov|^Nova|^Tychus|^Swann|^Raynor/i.test(action)) race='Terran';
-    else if(pw.test(full)||/^Protoss|^Fenix|^Alarak|^Artanis|^Karax|^Vorazun|^Zeratul/i.test(action)) race='Protoss';
-    else if(zw.test(full)||/^Zerg|^Kerrigan|^Zagara|^Abathur|^Dehaka|^Stetmann|^HotS|^Primal|^K5/i.test(action)) race='Zerg';
-    let sub='Abilities';
-    if(/^(Research|Evolve)/i.test(action)) sub='Upgrades';
-    else if(/\/(SCV|Probe|Drone|Harvester|DehakaDrone|DroneStetmann|MengskSCV)$/i.test('/'+ctx)) sub='Build';
-    else if(ctx&&/Barracks|Factory|Starport|Gateway|Stargate|RoboticsFac|WarpGate|SuperWarpGate|Hatchery|Lair|Hive|CommandCenter|OrbitalCommand|Nexus|NydusNetwork|GhostAcademy|MercCompound|EngineeringBay|Armory|FusionCore|CyberneticsCore|Forge|FleetBeacon|TwilightCouncil|TemplarArchive|DarkShrine|RoboticsBay|SpawningPool|EvolutionChamber|RoachWarren|HydraliskDen|BanelingNest|InfestationPit|GreaterSpire|UltraliskCavern|LurkerDen|ImpalerDen|ScourgeNest|SolarForge|DehakaBarracks|DehakaHatchery|Stetmann|Reactor/i.test(ctx)) sub='Train';
-    if(race==='Global'&&/^(Attack|Move|Stop|MoveHold|MovePatrol|Repair|ReturnCargo|Cancel|SmartCommand|Rally|SelectBuilder|Gather|Target|Selection|Subgroup|Status)/i.test(action)) sub='Core';
-    return [race, sub];
-}
-
-// ─── PARSE ──────────────────────────────────────────────────────────────
-let KM={}, AG={}, pinned=null, activeRaces=new Set(RACES.map(r=>r.id)), allCollapsed=false, meleeOnly=true, activeCategories=new Set();
-const CAT_COLORS = {
-    'Control Group Append':'#ff6b6b',
-    'Control Group Assign':'#ffa94d',
-    'Control Group Append & Steal':'#ffd93d',
-    'Control Group Assign & Steal':'#6bcb77',
-    'Control Group Recall':'#4d96ff',
-    'Camera Save':'#b66dff',
-    'Camera View':'#6dd5fa',
-    'Camera Move':'#ff6bcd',
-    'Camera Town':'#f8a5c2',
-    'Minimap':'#74b9ff',
-    'Ping':'#55efc4',
-    'Selection / Targeting':'#fdcb6e',
-    'Commander Abilities':'#e17055',
-    'System / UI':'#dfe6e9',
-    'Other':'#b2bec3'
-};
-const CAT_ORDER = [
-    'Control Group Append','Control Group Assign','Control Group Append & Steal','Control Group Assign & Steal','Control Group Recall',
-    'Camera Save','Camera View','Camera Move','Camera Town','Minimap','Ping','Selection / Targeting','Commander Abilities','System / UI','Other'
-];
-
-function parse() {
-    const binds=[]; let sec='';
-    for(const ln of CFG.split('\n')) {
-        const t=ln.trim();
-        if(!t||t.startsWith(';')) continue;
-        const sm=t.match(/^\[(.+)\]$/);
-        if(sm){ sec=sm[1].toLowerCase(); continue; }
-        const kv=t.match(/^(.+?)=(.*)$/);
-        if(!kv) continue;
-        const act=kv[1].trim(), val=kv[2].trim();
-        if(sec==='settings'||!val) continue;
-        for(const c of val.split(',')) {
-            const cc=c.trim();
-            if(!cc) continue;
-            const pts=cc.split('+').map(s=>s.trim());
-            const kn=pts[pts.length-1], mods=pts.slice(0,-1), kid=nk(kn);
-            const parts=act.split('/'), base=parts[0], ctx=parts.slice(1).join('/');
-            const [race, sub]=classify(act, ctx, sec);
-            const melee=isMelee(act, ctx, sec);
-            let hkCat=null;
-            if(sec==='hotkeys') hkCat=getHotkeyCategory(act);
-            binds.push({ action:base, raw:act, sec, keyId:kid, mods, combo:cc, race, sub, name:fmt(base), ctx, melee, hkCat });
-        }
-    }
-    return binds;
-}
-
-function build(binds) {
-    KM={}; AG={};
-    for(const b of binds) {
-        if(!KM[b.keyId]) KM[b.keyId]=[];
-        KM[b.keyId].push(b);
-        if(!AG[b.raw]) AG[b.raw]={ action:b.action, raw:b.raw, name:b.name, race:b.race, sub:b.sub, ctx:b.ctx, kbs:[], ks:new Set, melee:b.melee, hkCat:b.hkCat };
-        const g=AG[b.raw];
-        if(!g.ks.has(b.combo)){ g.ks.add(b.combo); g.kbs.push({ combo:b.combo, keyId:b.keyId, mods:b.mods }); }
-    }
-}
-
-// ─── RENDER KEYBOARD ──────────────────────────────────────────────────
-function renderKB() {
-    const kb=document.getElementById('kb');
-    kb.innerHTML='';
-    for(const row of KB_ROWS) {
-        const rd=document.createElement('div');
-        rd.className='krow';
-        for(const it of row) {
-            if(!it){ const g=document.createElement('div'); g.className='kgap'; rd.appendChild(g); continue; }
-            rd.appendChild(mkKey(it));
-        }
-        kb.appendChild(rd);
-    }
-    const mr=document.getElementById('mrow');
-    mr.innerHTML='';
-    for(const it of M_KEYS) {
-        if(!it){ const g=document.createElement('div'); g.className='kgap'; mr.appendChild(g); continue; }
-        mr.appendChild(mkKey(it));
-    }
-}
-
-function mkKey(it) {
-    const el=document.createElement('div');
-    el.className='key';
-    el.dataset.key=it.id;
-    el.style.width=`calc(var(--u)*${it.w})`;
-    const n=(KM[it.id]||[]).length;
-    if(n) el.classList.add('has');
-    el.innerHTML=`<span class="kl">${it.l}</span><span class="kc">${n||''}</span>`;
-    el.addEventListener('mouseenter', e=>showTip(it.id, e));
-    el.addEventListener('mouseleave', hideTip);
-    return el;
-}
-
-// ─── RENDER COMMANDS ──────────────────────────────────────────────────
-function renderCmds() {
-    const cm=document.getElementById('cmds');
-    cm.innerHTML='';
-    const groups={};
-    for(const g of Object.values(AG)) {
-        if(meleeOnly && !g.melee) continue;
-        if(!groups[g.race]) groups[g.race]={};
-        if(!groups[g.race][g.sub]) groups[g.race][g.sub]=[];
-        groups[g.race][g.sub].push(g);
-    }
-    for(const race of RACES) {
-        const rd=groups[race.id];
-        if(!rd) continue;
-        let total=0;
-        for(const items of Object.values(rd)) total+=items.length;
-        if(total===0) continue;
-        const sec=document.createElement('div');
-        sec.className='race-sec';
-        sec.dataset.race=race.id;
-        if(allCollapsed) sec.classList.add('shut');
-        const hdr=document.createElement('div');
-        hdr.className='race-hdr';
-        hdr.innerHTML=`<span class="race-dot" style="background:${race.c}"></span><span class="race-nm">${race.n}</span><span class="race-cnt">${total}</span><span class="race-arr">▾</span>`;
-        hdr.onclick=()=>sec.classList.toggle('shut');
-        sec.appendChild(hdr);
-        const body=document.createElement('div');
-        body.className='race-body';
-        const inner=document.createElement('div');
-        inner.className='race-inner';
-        for(const sub of SUBS[race.id]||[]) {
-            const items=rd[sub];
-            if(!items||!items.length) continue;
-            items.sort((a,b)=>a.name.localeCompare(b.name));
-            const ss=document.createElement('div');
-            ss.className='sub-sec';
-            if(allCollapsed) ss.classList.add('shut');
-            const sh=document.createElement('div');
-            sh.className='sub-hdr';
-            sh.innerHTML=`<span class="sub-nm">${sub}</span><span class="sub-cnt">${items.length}</span><span class="sub-arr">▾</span>`;
-            sh.onclick=()=>ss.classList.toggle('shut');
-            ss.appendChild(sh);
-            const sb=document.createElement('div');
-            sb.className='sub-body';
-            const si=document.createElement('div');
-            si.className='sub-inner';
-            const grid=document.createElement('div');
-            grid.className='cmd-grid';
-            for(const item of items) {
-                const el=document.createElement('div');
-                el.className='cmd';
-                el.dataset.raw=item.raw;
-                el.dataset.search=`${item.name} ${item.ctx}`.toLowerCase();
-                if(item.hkCat && activeCategories.has(item.hkCat)) {
-                    el.classList.add('cat-highlight');
-                    const color=CAT_COLORS[item.hkCat]||'#ffffff';
-                    el.style.setProperty('--cat-color', color);
-                } else {
-                    el.style.borderLeftColor='transparent';
-                }
-                const info=document.createElement('div');
-                info.className='cmd-info';
-                info.innerHTML=`<div class="cmd-nm">${item.name}</div>${item.ctx?`<div class="cmd-ctx">${item.ctx}</div>`:''}`;
-                el.appendChild(info);
-                const keys=document.createElement('div');
-                keys.className='cmd-keys';
-                for(const kb of item.kbs) {
-                    const b=document.createElement('kbd');
-                    b.textContent=[...kb.mods, kb.keyId].join('+');
-                    keys.appendChild(b);
-                }
-                el.appendChild(keys);
-                el.addEventListener('mouseenter', ()=>{
-                    if(pinned) { clearHL(); hlCmd(pinned); }
-                    else hlCmd(item);
-                });
-                el.addEventListener('mouseleave', ()=>{
-                    if(!pinned) clearHL();
-                    else hlCmd(pinned);
-                });
-                el.addEventListener('click', ()=>{
-                    if(pinned===item){ pinned=null; el.classList.remove('pin'); clearHL(); }
-                    else { document.querySelectorAll('.cmd.pin').forEach(e=>e.classList.remove('pin')); pinned=item; el.classList.add('pin'); hlCmd(item); }
-                });
-                grid.appendChild(el);
-            }
-            si.appendChild(grid);
-            sb.appendChild(si);
-            ss.appendChild(sb);
-            inner.appendChild(ss);
-        }
-        body.appendChild(inner);
-        sec.appendChild(body);
-        cm.appendChild(sec);
-    }
-    const q=document.getElementById('search').value.toLowerCase();
-    if(q) {
-        document.querySelectorAll('.cmd').forEach(el=>{ el.style.display=el.dataset.search.includes(q)?'':'none'; });
-    }
-    updateStats();
-    updateKeyGlows();
-}
-
-function updateStats() {
-    let totalBinds=0;
-    for(const arr of Object.values(KM)) totalBinds+=arr.length;
-    document.getElementById('sT').textContent=totalBinds;
-    document.getElementById('sK').textContent=Object.keys(KM).length;
-    document.getElementById('sA').textContent=Object.keys(AG).length;
-}
-
-// ─── HIGHLIGHT ──────────────────────────────────────────────────────────
-function hlCmd(item) {
-    clearHL();
-    const race=RACES.find(r=>r.id===item.race);
-    const color=race?race.c:'#78909c';
-    for(const kb of item.kbs) {
-        glowKey(kb.keyId, color);
-        for(const m of kb.mods) glowKey(nk(m), color);
-    }
-}
-
-function glowKey(kid, color) {
-    document.querySelectorAll(`[data-key="${kid}"]`).forEach(el=>{
-        el.classList.add('glow');
-        el.style.setProperty('--gc', color);
-        el.style.setProperty('--gc4', color+'55');
-        el.style.setProperty('--gc2', color+'22');
-    });
-}
-
-function clearHL() {
-    document.querySelectorAll('.key.glow').forEach(el=>{
-        el.classList.remove('glow');
-        el.style.removeProperty('--gc');
-        el.style.removeProperty('--gc4');
-        el.style.removeProperty('--gc2');
-    });
-}
-
-function updateKeyGlows() {
-    if(pinned) return;
-    clearHL();
-    if(activeCategories.size===0) return;
-    const keyCat={};
-    for(const kid of Object.keys(KM)) {
-        for(const b of KM[kid]) {
-            if(b.hkCat && activeCategories.has(b.hkCat)) {
-                if(!keyCat[kid]) keyCat[kid]=b.hkCat;
-            }
-        }
-    }
-    for(const [kid, cat] of Object.entries(keyCat)) {
-        const color=CAT_COLORS[cat]||'#ffffff';
-        glowKey(kid, color);
-    }
-}
-
-// ─── TOOLTIP ────────────────────────────────────────────────────────────
-function showTip(kid, e) {
-    const binds=KM[kid];
-    if(!binds||!binds.length) return;
-    const tip=document.getElementById('tip');
-    let h=`<div class="tip-k">${kid}</div>`;
-    const byRace={};
-    for(const b of binds) {
-        if(meleeOnly && !b.melee) continue;
-        if(!byRace[b.race]) byRace[b.race]=[];
-        byRace[b.race].push(b);
-    }
-    let hasAny=false;
-    for(const race of RACES) {
-        const items=byRace[race.id];
-        if(!items||!items.length) continue;
-        hasAny=true;
-        h+=`<div class="tip-r" style="color:${race.c}">${race.n}</div>`;
-        const seen=new Set();
-        for(const it of items.slice(0,8)) {
-            const k=`${it.name}|${it.ctx}`;
-            if(seen.has(k)) continue;
-            seen.add(k);
-            const comboDisplay=it.mods.length?[...it.mods, it.keyId].join('+') : it.keyId;
-            h+=`<div class="tip-c"><span>${it.name}${it.ctx?` <span class="tc">· ${it.ctx}</span>`:''}</span><span class="tc">${comboDisplay}</span></div>`;
-        }
-        if(items.length>8) h+=`<div class="tip-c" style="color:var(--tx-d)">+${items.length-8} more</div>`;
-    }
-    if(!hasAny){ tip.style.display='none'; return; }
-    tip.innerHTML=h;
-    tip.style.display='block';
-    const r=e.target.getBoundingClientRect();
-    tip.style.left=Math.min(r.left, window.innerWidth-310)+'px';
-    tip.style.top=(r.bottom+6)+'px';
-    requestAnimationFrame(()=>{
-        const tr=tip.getBoundingClientRect();
-        if(tr.bottom>window.innerHeight) tip.style.top=(r.top-tr.height-6)+'px';
-    });
-}
-
-function hideTip(){ document.getElementById('tip').style.display='none'; }
-
-// ─── FILTERS ────────────────────────────────────────────────────────────
-function renderFilters() {
-    const fc=document.getElementById('raceFilters');
-    fc.innerHTML='';
-    for(const race of RACES) {
-        const f=document.createElement('div');
-        f.className='filter on';
-        f.dataset.race=race.id;
-        f.innerHTML=`<span class="dot" style="background:${race.c}"></span>${race.n}`;
-        f.onclick=()=>{
-            activeRaces.has(race.id)?activeRaces.delete(race.id):activeRaces.add(race.id);
-            updFilters();
+        // ─── RACE / SUBS ──────────────────────────────────────────────
+        const RACES = [
+            { id: 'Global', n: 'Global', c: '#78909c' },
+            { id: 'Terran', n: 'Terran', c: '#2196f3' },
+            { id: 'Protoss', n: 'Protoss', c: '#ffc107' },
+            { id: 'Zerg', n: 'Zerg', c: '#4caf50' }
+        ];
+        const SUBS = {
+            Global: ['Core', 'Camera', 'Control Groups', 'System'],
+            Terran: ['Build', 'Train', 'Abilities', 'Upgrades'],
+            Protoss: ['Build', 'Train', 'Abilities', 'Upgrades'],
+            Zerg: ['Build', 'Train', 'Abilities', 'Upgrades']
         };
-        fc.appendChild(f);
-    }
-}
 
-function updFilters() {
-    document.querySelectorAll('.filter[data-race]').forEach(el=>{
-        el.classList.toggle('on', activeRaces.has(el.dataset.race));
-        el.classList.toggle('off', !activeRaces.has(el.dataset.race));
-    });
-    document.querySelectorAll('.race-sec').forEach(el=>{
-        el.style.display=activeRaces.has(el.dataset.race)?'':'none';
-    });
-}
+        // ─── KEYBOARD LAYOUT ──────────────────────────────────────────
+        const KB_ROWS = [
+            [{ id: 'ESC', l: 'Esc', w: 1.4 }, null, { id: 'F1', l: 'F1', w: 1 }, { id: 'F2', l: 'F2', w: 1 }, { id: 'F3', l: 'F3',
+                    w: 1 }, { id: 'F4', l: 'F4', w: 1 }, null, { id: 'F5', l: 'F5', w: 1 }, { id: 'F6', l: 'F6', w: 1 },
+                { id: 'F7', l: 'F7', w: 1 }, { id: 'F8', l: 'F8', w: 1 }, null, { id: 'F9', l: 'F9', w: 1 },
+                { id: 'F10', l: 'F10', w: 1 }, { id: 'F11', l: 'F11', w: 1 }, { id: 'F12', l: 'F12', w: 1 }
+            ],
+            [{ id: 'GRAVE', l: '`', w: 1 }, { id: '1', l: '1', w: 1 }, { id: '2', l: '2', w: 1 }, { id: '3', l: '3', w: 1 },
+                { id: '4', l: '4', w: 1 }, { id: '5', l: '5', w: 1 }, { id: '6', l: '6', w: 1 }, { id: '7', l: '7', w: 1 },
+                { id: '8', l: '8', w: 1 }, { id: '9', l: '9', w: 1 }, { id: '0', l: '0', w: 1 }, { id: 'MINUS', l: '-',
+                    w: 1 },
+                { id: 'EQUALS', l: '=', w: 1 }, { id: 'BKSP', l: '⌫', w: 1.9 }
+            ],
+            [{ id: 'TAB', l: 'Tab', w: 1.4 }, { id: 'Q', l: 'Q', w: 1 }, { id: 'W', l: 'W', w: 1 }, { id: 'E', l: 'E',
+                w: 1 }, { id: 'R', l: 'R', w: 1 }, { id: 'T', l: 'T', w: 1 }, { id: 'Y', l: 'Y', w: 1 },
+                { id: 'U', l: 'U', w: 1 }, { id: 'I', l: 'I', w: 1 }, { id: 'O', l: 'O', w: 1 }, { id: 'P', l: 'P',
+                    w: 1 }, { id: 'LBRACKET', l: '[', w: 1 },
+                { id: 'RBRACKET', l: ']', w: 1 }, { id: 'BSLASH', l: '\\', w: 1.5 }
+            ],
+            [{ id: 'CAPS', l: 'Caps', w: 1.65 }, { id: 'A', l: 'A', w: 1 }, { id: 'S', l: 'S', w: 1 },
+            { id: 'D', l: 'D', w: 1 }, { id: 'F', l: 'F', w: 1 }, { id: 'G', l: 'G', w: 1 }, { id: 'H', l: 'H', w: 1 },
+                { id: 'J', l: 'J', w: 1 }, { id: 'K', l: 'K', w: 1 }, { id: 'L', l: 'L', w: 1 },
+                { id: 'SEMICOLON', l: ';', w: 1 }, { id: 'APOSTROPHE', l: "'", w: 1 }, { id: 'ENTER', l: 'Enter',
+                    w: 2.25 }
+            ],
+            [{ id: 'SHIFT', l: 'Shift', w: 2.15 }, { id: 'Z', l: 'Z', w: 1 }, { id: 'X', l: 'X', w: 1 },
+            { id: 'C', l: 'C', w: 1 }, { id: 'V', l: 'V', w: 1 }, { id: 'B', l: 'B', w: 1 }, { id: 'N', l: 'N', w: 1 },
+                { id: 'M', l: 'M', w: 1 }, { id: 'COMMA', l: ',', w: 1 }, { id: 'PERIOD', l: '.', w: 1 },
+                { id: 'SLASH', l: '/', w: 1 }, { id: 'SHIFT', l: 'Shift', w: 2.75 }
+            ],
+            [{ id: 'CTRL', l: 'Ctrl', w: 1.5 }, { id: 'WIN', l: 'Win', w: 1.15 }, { id: 'ALT', l: 'Alt', w: 1.35 },
+                { id: 'SPACE', l: 'Space', w: 6.2 }, { id: 'ALT', l: 'Alt', w: 1.35 }, { id: 'WIN', l: 'Win', w: 1.15 },
+                { id: 'MENU', l: 'Menu', w: 1.15 }, { id: 'CTRL', l: 'Ctrl', w: 1.5 }
+            ]
+        ];
+        const M_KEYS = [{ id: 'LMB', l: 'LMB', w: 1.4 }, { id: 'RMB', l: 'RMB', w: 1.4 }, { id: 'MMB', l: 'MMB', w: 1.1 },
+            null, { id: 'MB4', l: 'MB4', w: 1.1 }, { id: 'MB5', l: 'MB5', w: 1.1 }, null, { id: 'INSERT', l: 'Ins',
+                w: 1 }
+        ];
 
-// ─── CATEGORY TOGGLES ──────────────────────────────────────────────────
-function renderCategoryToggles() {
-    const bar=document.getElementById('categoryBar');
-    const label=bar.querySelector('.cat-label');
-    const clearBtn=bar.querySelector('.cat-clear');
-    bar.innerHTML='';
-    bar.appendChild(label);
-    for(const cat of CAT_ORDER) {
-        if(!CAT_COLORS[cat]) continue;
-        const toggle=document.createElement('span');
-        toggle.className='cat-toggle';
-        toggle.dataset.cat=cat;
-        const dot=document.createElement('span');
-        dot.className='cat-dot';
-        dot.style.background=CAT_COLORS[cat];
-        toggle.appendChild(dot);
-        toggle.appendChild(document.createTextNode(cat));
-        toggle.addEventListener('click', ()=>{
-            if(activeCategories.has(cat)){ activeCategories.delete(cat); toggle.classList.remove('active'); }
-            else { activeCategories.add(cat); toggle.classList.add('active'); }
-            if(pinned){ document.querySelectorAll('.cmd.pin').forEach(el=>el.classList.remove('pin')); pinned=null; clearHL(); }
+        const NM = { Space: 'SPACE', Tab: 'TAB', CapsLock: 'CAPS', Escape: 'ESC', Enter: 'ENTER', Backspace: 'BKSP',
+            Insert: 'INSERT', Shift: 'SHIFT', Control: 'CTRL', Alt: 'ALT', Grave: 'GRAVE', Minus: 'MINUS',
+            Equals: 'EQUALS', BracketOpen: 'LBRACKET', BracketClose: 'RBRACKET', BackSlash: 'BSLASH',
+            Semicolon: 'SEMICOLON', Apostrophe: 'APOSTROPHE', Comma: 'COMMA', Period: 'PERIOD', Slash: 'SLASH',
+            LeftMouseButton: 'LMB', RightMouseButton: 'RMB', MiddleMouseButton: 'MMB', ForwardMouseButton: 'MB4',
+            BackMouseButton: 'MB5', NumPad0: 'NP0', NumPadMultiply: 'NPMUL'
+        };
+
+        function nk(n) { if (n.length === 1) return n; if (/^F\d+$/.test(n)) return n; return NM[n] || n }
+
+        function fmt(n) {
+            return n.replace(/([a-z])([A-Z])/g, '$1 $2')
+                .replace(/([A-Z]+)([A-Z][a-z])/g, '$1 $2')
+                .replace(/([a-z])(\d)/g, '$1 $2')
+                .replace(/(\d)([a-z])/gi, '$1 $2');
+        }
+
+        // ─── MELEE DETECTION ──────────────────────────────────────────
+        const NON_MELEE_TERMS = [
+            'Alarak', 'Artanis', 'Zagara', 'Dehaka', 'Fenix', 'Kerrigan', 'Nova',
+            'Stukov', 'Tychus', 'Swann', 'Raynor', 'Vorazun', 'Abathur', 'Karax',
+            'Zeratul', 'Mengsk', 'Stetmann',
+            'Coop', 'VoidCoop', 'Epilogue', 'Prologue', 'Campaign',
+            'ReviveBeacon', 'Champion', 'Warbringer', 'Clolarion', 'Mojo',
+            'Kaldalis', 'Taldarin', 'Talis', 'HH', 'SI', 'SJ', 'K5',
+            'VoidRift', 'VoidThrasher', 'VoidShard', 'NydusDestroyer',
+            'XelNaga', 'Primal', 'HotS', 'ZagaraVoid', 'KerriganVoid',
+            'DehakaCoop', 'FenixCoop', 'ArtanisVoid', 'AlarakCoop',
+            'NovaHero', 'StukovApocalisk', 'Mengsk', 'TrooperMengsk',
+            'SCVMengsk', 'BileLauncherZagara', 'Apocalisk', 'ZagaraRevive',
+            'BroodMother', 'QueenCoop', 'ZaGara', 'K5Kerrigan', 'FenixSOA',
+            'FenixArbiter', 'FenixClolarion', 'FenixDragoon', 'FenixKaldalis',
+            'FenixMojo', 'FenixTaldarin', 'FenixTalis', 'FenixWarbringer',
+            'SentryFenix', 'ImmortalAiur', 'ZealotShakuras', 'StalkerShakuras',
+            'HighTemplarTaldarim', 'WarpPrismTaldarim', 'PitAlarak',
+            'SOAMothership', 'ShadowShieldGenerator', 'OracleStasisTrap',
+            'MercCompound', 'HellionBlackOps', 'SiegeTank_BlackOps',
+            'Ghost_BlackOps', 'Marauder_BlackOps', 'Marine_BlackOps',
+            'Medivac_BlackOps', 'Banshee_BlackOps', 'Raven_BlackOps',
+            'Viking_BlackOps', 'WidowMine_BlackOps', 'Liberator_BlackOps',
+            'Reaper_BlackOps', 'Hellbat_BlackOps', 'Goliath_BlackOps',
+            'Predator_BlackOps', 'Diamondback_BlackOps', 'WarHound_BlackOps',
+            'Hercules_BlackOps', 'ScienceVessel_BlackOps', 'GhostVulture',
+            'NovaCoop', 'Tosh', 'Spectre', 'MengskReaper', 'MengskBC',
+            'MengskWraith', 'MengskMedic', 'MengskViking', 'MengskThor',
+            'MengskHellion', 'MengskSiegeTank', 'MengskGhost', 'MengskMarine',
+            'MengskMarauder', 'MengskFirebat', 'MengskReaper', 'MengskSCV',
+            'SupplyDepotMengsk', 'RefineryMengsk', 'BarracksMengsk',
+            'FactoryMengsk', 'StarportMengsk', 'CommandCenterMengsk',
+            'EngineeringBayMengsk', 'ArmoryMengsk', 'FusionCoreMengsk',
+            'GhostAcademyMengsk', 'MissileTurretMengsk', 'BunkerMengsk',
+            'ArtilleryMengsk', 'BunkerDepotMengsk', 'TrooperMengsk',
+            'MedivacMengsk', 'BattlecruiserMengsk', 'VikingMengsk',
+            'SiegeTankMengsk', 'ThorMengsk', 'WraithMengsk', 'HellionMengsk',
+            'MarauderMengsk', 'MarineMengsk', 'FirebatMengsk', 'ReaperMengsk',
+            'GhostMengsk', 'LiberatorMengsk', 'BansheeMengsk', 'RavenMengsk',
+            'CycloneMengsk', 'WidowMineMengsk', 'PredatorMengsk',
+            'DiamondbackMengsk', 'WarHoundMengsk', 'HERC_Mengsk',
+            'StukovInfested', 'InfestedStukov', 'InfestedBunker',
+            'InfestedCC', 'InfestedBarracks', 'InfestedFactory',
+            'InfestedStarport', 'InfestedEngBay', 'InfestedArmory',
+            'InfestedRefinery', 'InfestedSupply', 'InfestedMissileTurret',
+            'InfestedMercHaven', 'InfestedAbomination', 'InfestedMarine',
+            'InfestedMedic', 'InfestedSiegeTank', 'InfestedBanshee',
+            'InfestedDiamondback', 'InfestedLiberator', 'InfestedRaven',
+            'InfestedViking', 'InfestedWraith', 'InfestedBattlecruiser',
+            'InfestedThor', 'InfestedHellion', 'InfestedReaper',
+            'InfestedGhost', 'InfestedSpectre', 'InfestedFirebat',
+            'InfestedMarauder', 'InfestedMedivac', 'InfestedScienceVessel',
+            'InfestedHercules', 'InfestedGoliath', 'InfestedPredator',
+            'InfestedWarHound', 'InfestedCyclone', 'InfestedWidowMine',
+            'InfestedHellbat', 'InfestedVulture', 'InfestedSiegeBreaker',
+            'InfestedDiamondback', 'InfestedWarHound', 'InfestedCyclone'
+        ];
+
+        function isMelee(action, ctx, sec) {
+            if (sec === 'hotkeys') return true;
+            const full = (action + ' ' + ctx).toLowerCase();
+            for (const term of NON_MELEE_TERMS) {
+                if (full.includes(term.toLowerCase())) return false;
+            }
+            if (/coop|void/i.test(full)) return false;
+            return true;
+        }
+
+        // ─── CATEGORY MAPPING ────────────────────────────────────────────
+        function getHotkeyCategory(action) {
+            if (action.startsWith('ControlGroupAppendAndSteal')) return 'Control Group Append & Steal';
+            if (action.startsWith('ControlGroupAppend')) return 'Control Group Append';
+            if (action.startsWith('ControlGroupAssignAndSteal')) return 'Control Group Assign & Steal';
+            if (action.startsWith('ControlGroupAssign')) return 'Control Group Assign';
+            if (action.startsWith('ControlGroupRecall')) return 'Control Group Recall';
+            if (action.startsWith('CameraSave')) return 'Camera Save';
+            if (action.startsWith('CameraView')) return 'Camera View';
+            if (action.startsWith('CameraCenter') || action.startsWith('CameraFollow') || action.startsWith(
+                    'CameraTurn') ||
+                action === 'CameraPush') return 'Camera Move';
+            if (action.startsWith('TownCamera')) return 'Camera Town';
+            if (action.startsWith('Minimap')) return 'Minimap';
+            if (action.startsWith('QuickPing')) return 'Ping';
+            if (action === 'StatusAll' || action === 'StatusOwner' || action === 'StatusEnemy' ||
+                action === 'SmartCommand' || action === 'Selection' ||
+                action === 'SubgroupNext' || action === 'SubgroupPrev' || action === 'TargetChoose' ||
+                action === 'TargetCancel' || action === 'AlertRecall' || action === 'ArmySelect')
+                return 'Selection / Targeting';
+            if (action.startsWith('CommanderAbility')) return 'Commander Abilities';
+            if (action === 'FPS' || action === 'Music' || action === 'Sound' || action === 'PTT' ||
+                action === 'GameTooltipsOn' || action === 'QuickSave' || action === 'TeamResources' ||
+                action === 'WarpIn' || action === 'MinimapTerrain' || action === 'MinimapColors')
+                return 'System / UI';
+            return 'Other';
+        }
+
+        function classify(action, ctx, sec) {
+            if (sec === 'hotkeys') {
+                const cat = getHotkeyCategory(action);
+                return ['Global', cat];
+            }
+            const full = action + ' ' + ctx;
+            let race = 'Global';
+            const tw = /SCV|Mengsk|Barracks|Factory|Starport|CommandCenter|OrbitalCommand|EngineeringBay|Armory|GhostAcademy|FusionCore|Bunker|SupplyDepot|Refinery|MissileTurret|Marine|Marauder|Medic|Firebat|Reaper|Ghost|Spectre|Hellion|SiegeTank|Viking|Medivac|Banshee|Raven|Battlecruiser|Thor|Cyclone|WidowMine|Liberator|Vulture|ScienceVessel|Stukov|Nova|Tychus|Swann|Raynor|SiegeMode|Unsiege|Stim|CloakOn|CalldownMULE|Scan|TrooperMengsk|HERC|Warhound|Diamondback/i;
+            const pw = /Probe|Harvester|Nexus|Gateway|CyberneticsCore|Forge|RoboticsFacility|Stargate|FleetBeacon|TwilightCouncil|TemplarArchive|DarkShrine|RoboticsBay|Pylon|PhotonCannon|ShieldBattery|Assimilator|Zealot|Stalker|Sentry|Adept|HighTemplar|DarkTemplar|Archon|Immortal|Colossus|Disruptor|Phoenix|VoidRay|Oracle|Tempest|Carrier|Mothership|WarpPrism|Observer|Arbiter|Reaver|Scout|Corsair|DarkArchon|WarpGate|SuperWarpGate|Fenix|Alarak|Artanis|Karax|Vorazun|Zeratul/i;
+            const zw = /Drone|Hatchery|Lair|Hive|SpawningPool|EvolutionChamber|RoachWarren|HydraliskDen|BanelingNest|InfestationPit|Spire|GreaterSpire|UltraliskCavern|NydusNetwork|Extractor|SpineCrawler|SporeCrawler|CreepTumor|Zergling|Baneling|Roach|Ravager|Hydralisk|Lurker|Infestor|SwarmHost|Ultralisk|Mutalisk|Corruptor|BroodLord|Viper|Queen|Overlord|Overseer|Scourge|Defiler|Larva|Kerrigan|Zagara|Abathur|Dehaka|Stetmann|HotS|Primal|K5|Burrow|InjectLarva|Impaler|LurkerDen|ImpalerDen|ScourgeNest|BroodMother/i;
+            if (tw.test(full) || /^Terran|^Mengsk|^Stukov|^Nova|^Tychus|^Swann|^Raynor/i.test(action))
+                race = 'Terran';
+            else if (pw.test(full) || /^Protoss|^Fenix|^Alarak|^Artanis|^Karax|^Vorazun|^Zeratul/i.test(action))
+                race = 'Protoss';
+            else if (zw.test(full) || /^Zerg|^Kerrigan|^Zagara|^Abathur|^Dehaka|^Stetmann|^HotS|^Primal|^K5/i.test(
+                    action)) race = 'Zerg';
+            let sub = 'Abilities';
+            if (/^(Research|Evolve)/i.test(action)) sub = 'Upgrades';
+            else if (/\/(SCV|Probe|Drone|Harvester|DehakaDrone|DroneStetmann|MengskSCV)$/i.test('/' + ctx)) sub =
+                'Build';
+            else if (ctx && /Barracks|Factory|Starport|Gateway|Stargate|RoboticsFac|WarpGate|SuperWarpGate|Hatchery|Lair|Hive|CommandCenter|OrbitalCommand|Nexus|NydusNetwork|GhostAcademy|MercCompound|EngineeringBay|Armory|FusionCore|CyberneticsCore|Forge|FleetBeacon|TwilightCouncil|TemplarArchive|DarkShrine|RoboticsBay|SpawningPool|EvolutionChamber|RoachWarren|HydraliskDen|BanelingNest|InfestationPit|GreaterSpire|UltraliskCavern|LurkerDen|ImpalerDen|ScourgeNest|SolarForge|DehakaBarracks|DehakaHatchery|Stetmann|Reactor/i
+                    .test(ctx)) sub = 'Train';
+            if (race === 'Global' && /^(Attack|Move|Stop|MoveHold|MovePatrol|Repair|ReturnCargo|Cancel|SmartCommand|Rally|SelectBuilder|Gather|Target|Selection|Subgroup|Status)/i
+                .test(action)) sub = 'Core';
+            return [race, sub];
+        }
+
+        // ─── PARSE ──────────────────────────────────────────────────────
+        let KM = {},
+            AG = {},
+            pinned = null,
+            activeRaces = new Set(RACES.map(r => r.id)),
+            allCollapsed = false,
+            meleeOnly = true,
+            activeCategories = new Set(),
+            colorizeCommands = true;
+
+        const CAT_COLORS = {
+            'Control Group Append': '#ff6b6b',
+            'Control Group Assign': '#ffa94d',
+            'Control Group Append & Steal': '#ffd93d',
+            'Control Group Assign & Steal': '#6bcb77',
+            'Control Group Recall': '#4d96ff',
+            'Camera Save': '#b66dff',
+            'Camera View': '#6dd5fa',
+            'Camera Move': '#ff6bcd',
+            'Camera Town': '#f8a5c2',
+            'Minimap': '#74b9ff',
+            'Ping': '#55efc4',
+            'Selection / Targeting': '#fdcb6e',
+            'Commander Abilities': '#e17055',
+            'System / UI': '#dfe6e9',
+            'Other': '#b2bec3'
+        };
+        const CAT_ORDER = [
+            'Control Group Append', 'Control Group Assign', 'Control Group Append & Steal',
+            'Control Group Assign & Steal', 'Control Group Recall',
+            'Camera Save', 'Camera View', 'Camera Move', 'Camera Town',
+            'Minimap', 'Ping', 'Selection / Targeting', 'Commander Abilities',
+            'System / UI', 'Other'
+        ];
+
+        function parse() {
+            const binds = [];
+            let sec = '';
+            for (const ln of CFG.split('\n')) {
+                const t = ln.trim();
+                if (!t || t.startsWith(';')) continue;
+                const sm = t.match(/^\[(.+)\]$/);
+                if (sm) { sec = sm[1].toLowerCase(); continue; }
+                const kv = t.match(/^(.+?)=(.*)$/);
+                if (!kv) continue;
+                const act = kv[1].trim(),
+                    val = kv[2].trim();
+                if (sec === 'settings' || !val) continue;
+                for (const c of val.split(',')) {
+                    const cc = c.trim();
+                    if (!cc) continue;
+                    const pts = cc.split('+').map(s => s.trim());
+                    const kn = pts[pts.length - 1],
+                        mods = pts.slice(0, -1),
+                        kid = nk(kn);
+                    const parts = act.split('/'),
+                        base = parts[0],
+                        ctx = parts.slice(1).join('/');
+                    const [race, sub] = classify(act, ctx, sec);
+                    const melee = isMelee(act, ctx, sec);
+                    let hkCat = null;
+                    if (sec === 'hotkeys') hkCat = getHotkeyCategory(act);
+                    binds.push({ action: base, raw: act, sec, keyId: kid, mods, combo: cc, race, sub, name: fmt(
+                            base), ctx, melee, hkCat });
+                }
+            }
+            return binds;
+        }
+
+        function build(binds) {
+            KM = {};
+            AG = {};
+            for (const b of binds) {
+                if (!KM[b.keyId]) KM[b.keyId] = [];
+                KM[b.keyId].push(b);
+                if (!AG[b.raw]) AG[b.raw] = { action: b.action, raw: b.raw, name: b.name, race: b.race, sub: b.sub,
+                    ctx: b.ctx, kbs: [], ks: new Set, melee: b.melee, hkCat: b.hkCat };
+                const g = AG[b.raw];
+                if (!g.ks.has(b.combo)) { g.ks.add(b.combo);
+                    g.kbs.push({ combo: b.combo, keyId: b.keyId, mods: b.mods }); }
+            }
+        }
+
+        // ─── RENDER KEYBOARD ──────────────────────────────────────────
+        function renderKB() {
+            const kb = document.getElementById('kb');
+            kb.innerHTML = '';
+            for (const row of KB_ROWS) {
+                const rd = document.createElement('div');
+                rd.className = 'krow';
+                for (const it of row) {
+                    if (!it) { const g = document.createElement('div');
+                        g.className = 'kgap';
+                        rd.appendChild(g); continue; }
+                    rd.appendChild(mkKey(it));
+                }
+                kb.appendChild(rd);
+            }
+            const mr = document.getElementById('mrow');
+            mr.innerHTML = '';
+            for (const it of M_KEYS) {
+                if (!it) { const g = document.createElement('div');
+                    g.className = 'kgap';
+                    mr.appendChild(g); continue; }
+                mr.appendChild(mkKey(it));
+            }
+        }
+
+        function mkKey(it) {
+            const el = document.createElement('div');
+            el.className = 'key';
+            el.dataset.key = it.id;
+            el.style.width = `calc(var(--u)*${it.w})`;
+            const n = (KM[it.id] || []).length;
+            if (n) el.classList.add('has');
+            el.innerHTML = `<span class="kl">${it.l}</span><span class="kc">${n||''}</span>`;
+            el.addEventListener('mouseenter', e => showTip(it.id, e));
+            el.addEventListener('mouseleave', hideTip);
+            return el;
+        }
+
+        // ─── RENDER COMMANDS ──────────────────────────────────────────
+        function renderCmds() {
+            const cm = document.getElementById('cmds');
+            cm.innerHTML = '';
+            const groups = {};
+            for (const g of Object.values(AG)) {
+                if (meleeOnly && !g.melee) continue;
+                if (!groups[g.race]) groups[g.race] = {};
+                if (!groups[g.race][g.sub]) groups[g.race][g.sub] = [];
+                groups[g.race][g.sub].push(g);
+            }
+            for (const race of RACES) {
+                const rd = groups[race.id];
+                if (!rd) continue;
+                let total = 0;
+                for (const items of Object.values(rd)) total += items.length;
+                if (total === 0) continue;
+                const sec = document.createElement('div');
+                sec.className = 'race-sec';
+                sec.dataset.race = race.id;
+                if (allCollapsed) sec.classList.add('shut');
+                const hdr = document.createElement('div');
+                hdr.className = 'race-hdr';
+                hdr.innerHTML =
+                    `<span class="race-dot" style="background:${race.c}"></span><span class="race-nm">${race.n}</span><span class="race-cnt">${total}</span><span class="race-arr">▾</span>`;
+                hdr.onclick = () => sec.classList.toggle('shut');
+                sec.appendChild(hdr);
+                const body = document.createElement('div');
+                body.className = 'race-body';
+                const inner = document.createElement('div');
+                inner.className = 'race-inner';
+                for (const sub of SUBS[race.id] || []) {
+                    const items = rd[sub];
+                    if (!items || !items.length) continue;
+                    items.sort((a, b) => a.name.localeCompare(b.name));
+                    const ss = document.createElement('div');
+                    ss.className = 'sub-sec';
+                    if (allCollapsed) ss.classList.add('shut');
+                    const sh = document.createElement('div');
+                    sh.className = 'sub-hdr';
+                    sh.innerHTML =
+                        `<span class="sub-nm">${sub}</span><span class="sub-cnt">${items.length}</span><span class="sub-arr">▾</span>`;
+                    sh.onclick = () => ss.classList.toggle('shut');
+                    ss.appendChild(sh);
+                    const sb = document.createElement('div');
+                    sb.className = 'sub-body';
+                    const si = document.createElement('div');
+                    si.className = 'sub-inner';
+                    const grid = document.createElement('div');
+                    grid.className = 'cmd-grid';
+                    for (const item of items) {
+                        const el = document.createElement('div');
+                        el.className = 'cmd';
+                        el.dataset.raw = item.raw;
+                        el.dataset.search = `${item.name} ${item.ctx}`.toLowerCase();
+                        if (item.hkCat && activeCategories.has(item.hkCat)) {
+                            el.classList.add('cat-highlight');
+                            const color = CAT_COLORS[item.hkCat] || '#ffffff';
+                            el.style.setProperty('--cat-color', color);
+                        } else {
+                            el.style.borderLeftColor = 'transparent';
+                        }
+                        const info = document.createElement('div');
+                        info.className = 'cmd-info';
+                        info.innerHTML =
+                            `<div class="cmd-nm">${item.name}</div>${item.ctx?`<div class="cmd-ctx">${item.ctx}</div>`:''}`;
+                        el.appendChild(info);
+                        const keys = document.createElement('div');
+                        keys.className = 'cmd-keys';
+                        for (const kb of item.kbs) {
+                            const b = document.createElement('kbd');
+                            b.textContent = [...kb.mods, kb.keyId].join('+');
+                            keys.appendChild(b);
+                        }
+                        el.appendChild(keys);
+                        el.addEventListener('mouseenter', () => {
+                            if (pinned) { clearHL();
+                                hlCmd(pinned); } else hlCmd(item);
+                        });
+                        el.addEventListener('mouseleave', () => {
+                            if (!pinned) clearHL();
+                            else hlCmd(pinned);
+                        });
+                        el.addEventListener('click', () => {
+                            if (pinned === item) { pinned = null;
+                                el.classList.remove('pin');
+                                clearHL(); } else { document.querySelectorAll('.cmd.pin').forEach(e => e
+                                    .classList.remove('pin'));
+                                pinned = item;
+                                el.classList.add('pin');
+                                hlCmd(item); }
+                        });
+                        grid.appendChild(el);
+                    }
+                    si.appendChild(grid);
+                    sb.appendChild(si);
+                    ss.appendChild(sb);
+                    inner.appendChild(ss);
+                }
+                body.appendChild(inner);
+                sec.appendChild(body);
+                cm.appendChild(sec);
+            }
+            const q = document.getElementById('search').value.toLowerCase();
+            if (q) {
+                document.querySelectorAll('.cmd').forEach(el => {
+                    el.style.display = el.dataset.search.includes(q) ? '' : 'none';
+                });
+            }
+            updateStats();
+            updateKeyGlows();
+        }
+
+        function updateStats() {
+            let totalBinds = 0;
+            for (const arr of Object.values(KM)) totalBinds += arr.length;
+            document.getElementById('sT').textContent = totalBinds;
+            document.getElementById('sK').textContent = Object.keys(KM).length;
+            document.getElementById('sA').textContent = Object.keys(AG).length;
+        }
+
+        // ─── HIGHLIGHT ──────────────────────────────────────────────────
+        function hlCmd(item) {
+            clearHL();
+            const race = RACES.find(r => r.id === item.race);
+            const color = race ? race.c : '#78909c';
+            // If colorize is on and the item has a category, use category color for the main key
+            // But we still need to highlight all keys in the combo.
+            for (const kb of item.kbs) {
+                let keyColor = color;
+                if (colorizeCommands && item.hkCat && CAT_COLORS[item.hkCat]) {
+                    keyColor = CAT_COLORS[item.hkCat];
+                }
+                glowKey(kb.keyId, keyColor);
+                for (const m of kb.mods) glowKey(nk(m), keyColor);
+            }
+        }
+
+        function glowKey(kid, color) {
+            document.querySelectorAll(`[data-key="${kid}"]`).forEach(el => {
+                el.classList.add('glow');
+                el.style.setProperty('--gc', color);
+                el.style.setProperty('--gc4', color + '55');
+                el.style.setProperty('--gc2', color + '22');
+            });
+        }
+
+        function clearHL() {
+            document.querySelectorAll('.key.glow').forEach(el => {
+                el.classList.remove('glow');
+                el.style.removeProperty('--gc');
+                el.style.removeProperty('--gc4');
+                el.style.removeProperty('--gc2');
+            });
+        }
+
+        function updateKeyGlows() {
+            if (pinned) return;
+            clearHL();
+            if (activeCategories.size === 0) return;
+            const keyCat = {};
+            for (const kid of Object.keys(KM)) {
+                for (const b of KM[kid]) {
+                    if (b.hkCat && activeCategories.has(b.hkCat)) {
+                        if (!keyCat[kid]) keyCat[kid] = b.hkCat;
+                    }
+                }
+            }
+            for (const [kid, cat] of Object.entries(keyCat)) {
+                const color = CAT_COLORS[cat] || '#ffffff';
+                glowKey(kid, color);
+            }
+        }
+
+        // ─── TOOLTIP ────────────────────────────────────────────────────
+        function showTip(kid, e) {
+            const binds = KM[kid];
+            if (!binds || !binds.length) return;
+            const tip = document.getElementById('tip');
+            let h = `<div class="tip-k">${kid}</div>`;
+            const byRace = {};
+            for (const b of binds) {
+                if (meleeOnly && !b.melee) continue;
+                if (!byRace[b.race]) byRace[b.race] = [];
+                byRace[b.race].push(b);
+            }
+            let hasAny = false;
+            for (const race of RACES) {
+                const items = byRace[race.id];
+                if (!items || !items.length) continue;
+                hasAny = true;
+                h += `<div class="tip-r" style="color:${race.c}">${race.n}</div>`;
+                const seen = new Set();
+                for (const it of items.slice(0, 10)) {
+                    const k = `${it.name}|${it.ctx}`;
+                    if (seen.has(k)) continue;
+                    seen.add(k);
+                    const comboDisplay = it.mods.length ? [...it.mods, it.keyId].join('+') : it.keyId;
+                    const catColor = (colorizeCommands && it.hkCat && CAT_COLORS[it.hkCat]) ? CAT_COLORS[it.hkCat] :
+                        'transparent';
+                    const chip = catColor !== 'transparent' ?
+                        `<span class="cat-chip" style="background:${catColor}"></span>` : '';
+                    h +=
+                    `<div class="tip-c"><span>${chip}${it.name}${it.ctx?` <span class="tc">· ${it.ctx}</span>`:''}</span><span class="tc">${comboDisplay}</span></div>`;
+                }
+                if (items.length > 10) h +=
+                    `<div class="tip-c" style="color:var(--tx-d)">+${items.length-10} more</div>`;
+            }
+            if (!hasAny) { tip.style.display = 'none'; return; }
+            tip.innerHTML = h;
+            tip.style.display = 'block';
+            const r = e.target.getBoundingClientRect();
+            tip.style.left = Math.min(r.left, window.innerWidth - 350) + 'px';
+            tip.style.top = (r.bottom + 6) + 'px';
+            requestAnimationFrame(() => {
+                const tr = tip.getBoundingClientRect();
+                if (tr.bottom > window.innerHeight) tip.style.top = (r.top - tr.height - 6) + 'px';
+            });
+        }
+
+        function hideTip() { document.getElementById('tip').style.display = 'none'; }
+
+        // ─── FILTERS ────────────────────────────────────────────────────
+        function renderFilters() {
+            const fc = document.getElementById('raceFilters');
+            fc.innerHTML = '';
+            for (const race of RACES) {
+                const f = document.createElement('div');
+                f.className = 'filter on';
+                f.dataset.race = race.id;
+                f.innerHTML = `<span class="dot" style="background:${race.c}"></span>${race.n}`;
+                f.onclick = () => {
+                    activeRaces.has(race.id) ? activeRaces.delete(race.id) : activeRaces.add(race.id);
+                    updFilters();
+                };
+                fc.appendChild(f);
+            }
+        }
+
+        function updFilters() {
+            document.querySelectorAll('.filter[data-race]').forEach(el => {
+                el.classList.toggle('on', activeRaces.has(el.dataset.race));
+                el.classList.toggle('off', !activeRaces.has(el.dataset.race));
+            });
+            document.querySelectorAll('.race-sec').forEach(el => {
+                el.style.display = activeRaces.has(el.dataset.race) ? '' : 'none';
+            });
+        }
+
+        // ─── CATEGORY TOGGLES ──────────────────────────────────────────
+        function renderCategoryToggles() {
+            const bar = document.getElementById('categoryBar');
+            const label = bar.querySelector('.cat-label');
+            const clearBtn = bar.querySelector('.cat-clear');
+            bar.innerHTML = '';
+            bar.appendChild(label);
+            for (const cat of CAT_ORDER) {
+                if (!CAT_COLORS[cat]) continue;
+                const toggle = document.createElement('span');
+                toggle.className = 'cat-toggle';
+                toggle.dataset.cat = cat;
+                const dot = document.createElement('span');
+                dot.className = 'cat-dot';
+                dot.style.background = CAT_COLORS[cat];
+                toggle.appendChild(dot);
+                toggle.appendChild(document.createTextNode(cat));
+                toggle.addEventListener('click', () => {
+                    if (activeCategories.has(cat)) {
+                        activeCategories.delete(cat);
+                        toggle.classList.remove('active');
+                    } else {
+                        activeCategories.add(cat);
+                        toggle.classList.add('active');
+                    }
+                    if (pinned) {
+                        document.querySelectorAll('.cmd.pin').forEach(el => el.classList.remove('pin'));
+                        pinned = null;
+                        clearHL();
+                    }
+                    renderCmds();
+                });
+                bar.appendChild(toggle);
+            }
+            bar.appendChild(clearBtn);
+            clearBtn.addEventListener('click', () => {
+                activeCategories.clear();
+                document.querySelectorAll('.cat-toggle').forEach(el => el.classList.remove('active'));
+                if (pinned) {
+                    document.querySelectorAll('.cmd.pin').forEach(el => el.classList.remove('pin'));
+                    pinned = null;
+                    clearHL();
+                }
+                renderCmds();
+            });
+        }
+
+        // ─── TOGGLE ALL ────────────────────────────────────────────────
+        function toggleAll() {
+            allCollapsed = !allCollapsed;
+            document.querySelectorAll('.race-sec,.sub-sec').forEach(el => el.classList.toggle('shut', allCollapsed));
+            document.getElementById('toggleAll').textContent = allCollapsed ? 'Expand All' : 'Collapse All';
+        }
+
+        // ─── MELEE TOGGLE ──────────────────────────────────────────────
+        function toggleMelee() {
+            meleeOnly = !meleeOnly;
+            const el = document.getElementById('meleeToggle');
+            el.classList.toggle('active', meleeOnly);
             renderCmds();
-        });
-        bar.appendChild(toggle);
-    }
-    bar.appendChild(clearBtn);
-    clearBtn.addEventListener('click', ()=>{
-        activeCategories.clear();
-        document.querySelectorAll('.cat-toggle').forEach(el=>el.classList.remove('active'));
-        if(pinned){ document.querySelectorAll('.cmd.pin').forEach(el=>el.classList.remove('pin')); pinned=null; clearHL(); }
-        renderCmds();
-    });
-}
+            const q = document.getElementById('search').value.toLowerCase();
+            if (q) {
+                document.querySelectorAll('.cmd').forEach(el2 => {
+                    el2.style.display = el2.dataset.search.includes(q) ? '' : 'none';
+                });
+            }
+            updFilters();
+        }
 
-// ─── TOGGLE ALL ────────────────────────────────────────────────────────
-function toggleAll() {
-    allCollapsed=!allCollapsed;
-    document.querySelectorAll('.race-sec,.sub-sec').forEach(el=>el.classList.toggle('shut', allCollapsed));
-    document.getElementById('toggleAll').textContent=allCollapsed?'Expand All':'Collapse All';
-}
+        // ─── COLORIZE TOGGLE ───────────────────────────────────────────
+        function toggleColorize() {
+            colorizeCommands = !colorizeCommands;
+            const el = document.getElementById('colorizeToggle');
+            el.classList.toggle('active', colorizeCommands);
+            // If a command is pinned, re-highlight it with the new setting
+            if (pinned) {
+                clearHL();
+                hlCmd(pinned);
+            }
+            // Also update key glows for category highlights (if any)
+            updateKeyGlows();
+        }
 
-// ─── MELEE TOGGLE ──────────────────────────────────────────────────────
-function toggleMelee() {
-    meleeOnly=!meleeOnly;
-    const el=document.getElementById('meleeToggle');
-    el.classList.toggle('active', meleeOnly);
-    renderCmds();
-    const q=document.getElementById('search').value.toLowerCase();
-    if(q) {
-        document.querySelectorAll('.cmd').forEach(el2=>{
-            el2.style.display=el2.dataset.search.includes(q)?'':'none';
-        });
-    }
-    updFilters();
-}
+        // ─── INIT ──────────────────────────────────────────────────────
+        function init() {
+            const binds = parse();
+            build(binds);
+            renderKB();
+            renderCmds();
+            renderFilters();
+            renderCategoryToggles();
 
-// ─── INIT ──────────────────────────────────────────────────────────────
-function init() {
-    const binds=parse();
-    build(binds);
-    renderKB();
-    renderCmds();
-    renderFilters();
-    renderCategoryToggles();
+            document.getElementById('search').addEventListener('input', e => {
+                const q = e.target.value.toLowerCase();
+                document.querySelectorAll('.cmd').forEach(el => {
+                    el.style.display = el.dataset.search.includes(q) ? '' : 'none';
+                });
+            });
 
-    document.getElementById('search').addEventListener('input', e=>{
-        const q=e.target.value.toLowerCase();
-        document.querySelectorAll('.cmd').forEach(el=>{
-            el.style.display=el.dataset.search.includes(q)?'':'none';
-        });
-    });
+            document.getElementById('toggleAll').addEventListener('click', toggleAll);
+            document.getElementById('meleeToggle').addEventListener('click', toggleMelee);
+            document.getElementById('colorizeToggle').addEventListener('click', toggleColorize);
 
-    document.getElementById('toggleAll').addEventListener('click', toggleAll);
-    document.getElementById('meleeToggle').addEventListener('click', toggleMelee);
-    document.getElementById('meleeToggle').classList.add('active');
+            document.getElementById('meleeToggle').classList.add('active');
+            document.getElementById('colorizeToggle').classList.add('active');
 
-    updateStats();
-}
+            updateStats();
+        }
 
-document.addEventListener('DOMContentLoaded', init);
-</script>
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
 </body>
 </html>
