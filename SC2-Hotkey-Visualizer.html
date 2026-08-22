@@ -27,6 +27,7 @@
             --u: 44px;
             --g: 3px;
             --r: 4px;
+            --cat-sidebar-width: 160px;
         }
         html,
         body {
@@ -236,48 +237,54 @@
             box-shadow: 0 0 8px rgba(0, 229, 255, .4);
         }
 
-        .category-bar {
+        /* ─── Category sidebar ─── */
+        .category-sidebar {
             display: flex;
-            flex-wrap: wrap;
-            gap: 4px 8px;
-            align-items: center;
-            padding: 4px 0 6px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, .03);
-            margin-bottom: 6px;
+            flex-direction: column;
+            gap: 3px;
+            padding: 4px 6px 4px 0;
+            border-right: 1px solid rgba(255, 255, 255, .04);
             flex-shrink: 0;
+            width: var(--cat-sidebar-width);
+            overflow-y: auto;
+            max-height: 100%;
         }
-        .category-bar .cat-label {
-            font-size: 8px;
+        .category-sidebar .cat-label {
+            font-size: 7px;
             color: var(--tx-d);
             text-transform: uppercase;
             letter-spacing: 1px;
-            margin-right: 2px;
+            padding: 2px 0 4px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, .05);
+            margin-bottom: 4px;
         }
         .cat-toggle {
-            padding: 2px 8px;
-            border-radius: 10px;
+            padding: 3px 8px;
+            border-radius: 4px;
             font-size: 8px;
             text-transform: uppercase;
-            letter-spacing: .5px;
+            letter-spacing: .3px;
             border: 1px solid var(--kb-b);
             background: var(--sf2);
             color: var(--tx-d);
             cursor: pointer;
             transition: all .2s;
             user-select: none;
-            display: inline-flex;
+            display: flex;
             align-items: center;
-            gap: 4px;
-            position: relative;
+            gap: 6px;
+            white-space: nowrap;
+            width: 100%;
         }
         .cat-toggle .cat-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             flex-shrink: 0;
         }
         .cat-toggle:hover {
             border-color: var(--tx-d);
+            background: rgba(255, 255, 255, .02);
         }
         .cat-toggle.active {
             border-color: var(--ac);
@@ -285,46 +292,23 @@
             background: rgba(255, 255, 255, .04);
         }
         .cat-toggle.active .cat-dot {
-            box-shadow: 0 0 6px currentColor;
+            box-shadow: 0 0 8px currentColor;
         }
         .cat-clear {
-            font-size: 8px;
+            font-size: 7px;
             color: var(--tx-d);
             cursor: pointer;
             padding: 2px 6px;
             border: 1px solid transparent;
-            border-radius: 10px;
+            border-radius: 4px;
             transition: all .2s;
+            text-align: center;
+            margin-top: 4px;
+            width: 100%;
         }
         .cat-clear:hover {
             border-color: var(--tx-d);
             color: var(--tx);
-        }
-
-        /* ─── Category tooltip ─── */
-        .cat-tooltip {
-            position: fixed;
-            background: var(--sf);
-            border: 1px solid var(--ac);
-            border-radius: 6px;
-            padding: 6px 10px;
-            font-size: 9px;
-            color: var(--tx);
-            pointer-events: none;
-            z-index: 1000;
-            max-width: 260px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, .6);
-            display: none;
-            line-height: 1.4;
-        }
-        .cat-tooltip .tt-cat {
-            font-weight: 700;
-            color: var(--tx-b);
-            display: block;
-            margin-bottom: 2px;
-        }
-        .cat-tooltip .tt-desc {
-            color: var(--tx-d);
         }
 
         .colorize-toggle {
@@ -409,12 +393,19 @@
             color: var(--tx);
         }
 
+        /* ─── Main panel with sidebar ─── */
         .main-panel {
             display: flex;
             flex: 1;
             min-height: 0;
-            gap: 12px;
+            gap: 10px;
             padding-bottom: 6px;
+        }
+        .content-panel {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+            gap: 12px;
         }
         .kb-sec {
             flex: 0 0 55%;
@@ -768,6 +759,31 @@
             vertical-align: middle;
         }
 
+        .cat-tooltip {
+            position: fixed;
+            background: var(--sf);
+            border: 1px solid var(--ac);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 9px;
+            color: var(--tx);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 260px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .6);
+            display: none;
+            line-height: 1.4;
+        }
+        .cat-tooltip .tt-cat {
+            font-weight: 700;
+            color: var(--tx-b);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .cat-tooltip .tt-desc {
+            color: var(--tx-d);
+        }
+
         ::-webkit-scrollbar {
             width: 5px;
             height: 5px;
@@ -783,13 +799,53 @@
             background: var(--tx-d);
         }
 
+        @media(max-width: 1024px) {
+            :root {
+                --cat-sidebar-width: 130px;
+            }
+        }
         @media(max-width: 900px) {
             :root {
                 --u: 34px;
+                --cat-sidebar-width: 110px;
             }
             .main-panel {
                 flex-direction: column;
                 gap: 10px;
+            }
+            .content-panel {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .category-sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, .04);
+                padding: 4px 0 8px 0;
+                width: 100%;
+                max-height: 80px;
+                overflow-y: auto;
+                gap: 2px;
+            }
+            .category-sidebar .cat-label {
+                width: 100%;
+                border-bottom: none;
+                margin-bottom: 0;
+            }
+            .cat-toggle {
+                width: auto;
+                padding: 2px 6px;
+                font-size: 7px;
+                white-space: nowrap;
+            }
+            .cat-toggle .cat-dot {
+                width: 6px;
+                height: 6px;
+            }
+            .cat-clear {
+                width: auto;
+                margin-top: 0;
             }
             .kb-sec {
                 flex: 0 0 auto;
@@ -812,6 +868,23 @@
             }
             #comboSearch {
                 width: 100px;
+            }
+        }
+        @media(max-width: 600px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .stats {
+                width: 100%;
+                justify-content: space-around;
+            }
+            .toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filter-bar {
+                flex-wrap: wrap;
             }
         }
     </style>
@@ -852,17 +925,21 @@
             </div>
         </div>
 
-        <div class="category-bar" id="categoryBar">
-            <span class="cat-label">Highlight:</span>
-            <span class="cat-clear" id="clearCategories">✕ clear</span>
-        </div>
-
         <div class="main-panel">
-            <div class="kb-sec">
-                <div class="kb" id="kb"></div>
-                <div class="mrow" id="mrow"></div>
+            <!-- Category Sidebar -->
+            <div class="category-sidebar" id="categorySidebar">
+                <span class="cat-label">Highlight Categories</span>
+                <!-- dynamically filled -->
+                <span class="cat-clear" id="clearCategories">✕ clear all</span>
             </div>
-            <div class="cmds" id="cmds"></div>
+
+            <div class="content-panel">
+                <div class="kb-sec">
+                    <div class="kb" id="kb"></div>
+                    <div class="mrow" id="mrow"></div>
+                </div>
+                <div class="cmds" id="cmds"></div>
+            </div>
         </div>
 
         <div class="tip" id="tip"></div>
@@ -2178,13 +2255,14 @@
             });
         }
 
-        // ─── CATEGORY TOGGLES ──────────────────────────────────────────
+        // ─── CATEGORY TOGGLES (vertical sidebar) ────────────────────────
         function renderCategoryToggles() {
-            const bar = document.getElementById('categoryBar');
-            const label = bar.querySelector('.cat-label');
-            const clearBtn = bar.querySelector('.cat-clear');
-            bar.innerHTML = '';
-            bar.appendChild(label);
+            const sidebar = document.getElementById('categorySidebar');
+            // Keep label and clear button
+            const label = sidebar.querySelector('.cat-label');
+            const clearBtn = sidebar.querySelector('.cat-clear');
+            sidebar.innerHTML = '';
+            sidebar.appendChild(label);
             for (const cat of CAT_ORDER) {
                 if (!CAT_COLORS[cat]) continue;
                 const toggle = document.createElement('span');
@@ -2212,9 +2290,9 @@
                     }
                     renderCmds(document.getElementById('comboSearch').value.trim());
                 });
-                bar.appendChild(toggle);
+                sidebar.appendChild(toggle);
             }
-            bar.appendChild(clearBtn);
+            sidebar.appendChild(clearBtn);
             clearBtn.addEventListener('click', () => {
                 activeCategories.clear();
                 document.querySelectorAll('.cat-toggle').forEach(el => el.classList.remove('active'));
