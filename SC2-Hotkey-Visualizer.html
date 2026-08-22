@@ -268,6 +268,7 @@
             display: inline-flex;
             align-items: center;
             gap: 4px;
+            position: relative;
         }
         .cat-toggle .cat-dot {
             width: 6px;
@@ -298,6 +299,32 @@
         .cat-clear:hover {
             border-color: var(--tx-d);
             color: var(--tx);
+        }
+
+        /* ─── Category tooltip ─── */
+        .cat-tooltip {
+            position: fixed;
+            background: var(--sf);
+            border: 1px solid var(--ac);
+            border-radius: 6px;
+            padding: 6px 10px;
+            font-size: 9px;
+            color: var(--tx);
+            pointer-events: none;
+            z-index: 1000;
+            max-width: 260px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, .6);
+            display: none;
+            line-height: 1.4;
+        }
+        .cat-tooltip .tt-cat {
+            font-weight: 700;
+            color: var(--tx-b);
+            display: block;
+            margin-bottom: 2px;
+        }
+        .cat-tooltip .tt-desc {
+            color: var(--tx-d);
         }
 
         .colorize-toggle {
@@ -337,7 +364,6 @@
             box-shadow: 0 0 8px rgba(0, 229, 255, .4);
         }
 
-        /* ─── Key combo search bar ─── */
         .combo-search-wrapper {
             display: flex;
             align-items: center;
@@ -679,7 +705,6 @@
             border-color: var(--ac);
             color: var(--ac);
         }
-        /* combo search highlight */
         .cmds .cmd.combo-match {
             background: rgba(0, 229, 255, .08);
             outline: 1px solid rgba(0, 229, 255, .2);
@@ -841,6 +866,7 @@
         </div>
 
         <div class="tip" id="tip"></div>
+        <div class="cat-tooltip" id="catTooltip"></div>
     </div>
 
     <script>
@@ -1717,6 +1743,25 @@
             return [race, sub];
         }
 
+        // ─── CATEGORY DESCRIPTIONS ──────────────────────────────────────
+        const CAT_DESCRIPTIONS = {
+            'Control Group Append': 'Add selected units to a control group without removing existing members.',
+            'Control Group Assign': 'Overwrite a control group with the current selection.',
+            'Control Group Append & Steal': 'Add selected units to a control group and remove them from other groups.',
+            'Control Group Assign & Steal': 'Overwrite a control group and remove units from previous groups.',
+            'Control Group Recall': 'Select and center camera on a saved control group.',
+            'Camera Save': 'Save the current camera position to a numbered location.',
+            'Camera View': 'Jump the camera to a saved location.',
+            'Camera Move': 'Pan, rotate, or push/pull the camera view.',
+            'Camera Town': 'Jump the camera to your main base/town hall.',
+            'Minimap': 'Toggle minimap colors, terrain, or ping locations.',
+            'Ping': 'Send a quick ping alert on the minimap.',
+            'Selection / Targeting': 'Commands for selecting units, targeting abilities, and managing subgroups.',
+            'Commander Abilities': 'Activate special abilities for Co-op commanders.',
+            'System / UI': 'Toggle game tools, team resources, quick save, and other UI functions.',
+            'Other': 'Miscellaneous or uncategorized hotkey bindings.'
+        };
+
         // ─── PARSE ──────────────────────────────────────────────────────
         let KM = {},
             AG = {},
@@ -1893,7 +1938,6 @@
                         el.className = 'cmd';
                         el.dataset.raw = item.raw;
                         el.dataset.search = `${item.name} ${item.ctx}`.toLowerCase();
-                        // combo filter match
                         let comboMatch = false;
                         if (comboFilter) {
                             const normalizedFilter = comboFilter.toLowerCase().replace(/\s/g, '');
@@ -1961,19 +2005,16 @@
                     el.style.display = el.dataset.search.includes(q) ? '' : 'none';
                 });
             }
-            // Also filter by combo search if active
             const comboVal = document.getElementById('comboSearch').value.trim();
             if (comboVal) {
                 const normalizedFilter = comboVal.toLowerCase().replace(/\s/g, '');
                 document.querySelectorAll('.cmd').forEach(el => {
-                    // If it has .combo-match, keep it, otherwise hide
                     if (!el.classList.contains('combo-match')) {
                         el.style.display = 'none';
                     } else {
                         el.style.display = '';
                     }
                 });
-                // Expand all sections to show matches
                 document.querySelectorAll('.race-sec.shut, .sub-sec.shut').forEach(el => el.classList.remove('shut'));
             }
             updateStats();
@@ -2087,6 +2128,29 @@
 
         function hideTip() { document.getElementById('tip').style.display = 'none'; }
 
+        // ─── CATEGORY TOOLTIP ──────────────────────────────────────────
+        function showCatTooltip(cat, e) {
+            const desc = CAT_DESCRIPTIONS[cat];
+            if (!desc) return;
+            const tt = document.getElementById('catTooltip');
+            const color = CAT_COLORS[cat] || '#ffffff';
+            tt.innerHTML =
+                `<span class="tt-cat" style="color:${color}">${cat}</span><span class="tt-desc">${desc}</span>`;
+            tt.style.display = 'block';
+            const r = e.target.getBoundingClientRect();
+            tt.style.left = Math.min(r.left, window.innerWidth - 270) + 'px';
+            tt.style.top = (r.bottom + 4) + 'px';
+            requestAnimationFrame(() => {
+                const tr = tt.getBoundingClientRect();
+                if (tr.bottom > window.innerHeight) tt.style.top = (r.top - tr.height - 4) + 'px';
+                if (tr.right > window.innerWidth) tt.style.left = (window.innerWidth - tr.width - 10) + 'px';
+            });
+        }
+
+        function hideCatTooltip() {
+            document.getElementById('catTooltip').style.display = 'none';
+        }
+
         // ─── FILTERS ────────────────────────────────────────────────────
         function renderFilters() {
             const fc = document.getElementById('raceFilters');
@@ -2131,6 +2195,8 @@
                 dot.style.background = CAT_COLORS[cat];
                 toggle.appendChild(dot);
                 toggle.appendChild(document.createTextNode(cat));
+                toggle.addEventListener('mouseenter', (e) => showCatTooltip(cat, e));
+                toggle.addEventListener('mouseleave', hideCatTooltip);
                 toggle.addEventListener('click', () => {
                     if (activeCategories.has(cat)) {
                         activeCategories.delete(cat);
@@ -2215,7 +2281,6 @@
                 document.querySelectorAll('.cmd').forEach(el => {
                     el.style.display = el.dataset.search.includes(q) ? '' : 'none';
                 });
-                // Re-apply combo filter if active
                 const comboVal = document.getElementById('comboSearch').value.trim();
                 if (comboVal) {
                     const normalizedFilter = comboVal.toLowerCase().replace(/\s/g, '');
